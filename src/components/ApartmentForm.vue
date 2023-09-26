@@ -8,6 +8,8 @@ const TOM_TOM_KEY = import.meta.env.VITE_TOM_TOM_KEY;
 const params = { key: TOM_TOM_KEY, language: "it-IT", countrySet: "IT" };
 
 const emptyForm = {
+	// TO CHANGE
+	user_id: 1,
 	name: "",
 	slug: "",
 	description: "",
@@ -31,6 +33,7 @@ export default {
 				return emptyForm;
 			},
 		},
+		errors: {},
 	},
 	data() {
 		return {
@@ -49,6 +52,10 @@ export default {
 		slugGenerator() {
 			this.form.slug = this.form.name.toLowerCase().split(' ').join('-');
 		},
+
+		// hasError() {
+		// 	return Object.keys(this.errors).length;
+		// }
 	},
 
 	emits: ["form-submit"],
