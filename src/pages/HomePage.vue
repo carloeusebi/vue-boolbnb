@@ -1,11 +1,12 @@
 <script>
-export default{
-    name: 'HomePage'
-}
+export default {
+	name: 'HomePage',
+};
 </script>
 
 <template>
-    temporary page
-    <RouterLink :to="{name:'login'}">LOGIN</RouterLink>
-
+	temporary page
+	<div>
+		<RouterLink :to="{ name: 'apartments.create' }">Create Apartment</RouterLink>
+	</div>
 </template>
