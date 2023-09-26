@@ -45,6 +45,10 @@ export default {
 		isFetchingCoordinates() {
 			return this.fetchingCoordinates;
 		},
+
+		slugGenerator() {
+			this.form.slug = this.form.name.toLowerCase().split(' ').join('-');
+		},
 	},
 
 	emits: ["form-submit"],
@@ -119,11 +123,11 @@ export default {
 		<form @submit.prevent="handleFormSubmit" class="row g-3">
 			<div class="col-6">
 				<label for="name" class="form-label">Titolo</label>
-				<input type="text" class="form-control" id="name" name="name" v-model="form.name">
+				<input type="text" class="form-control" id="name" name="name" v-model.trim="form.name">
 			</div>
 			<div class="col-6">
 				<label for="slug" class="form-label">Slug</label>
-				<input type="text" class="form-control" id="slug" disabled>
+				<input type="text" class="form-control" id="slug" disabled :value="form.slug">
 			</div>
 			<div class="col-12">
 				<label for="address" class="form-label">Indirizzo</label>
@@ -135,28 +139,38 @@ export default {
 			</div>
 			<div class="col-12">
 				<label for="description" class="form-label">Descrizione</label>
-				<textarea class="form-control" id="description" name="description" rows="7" v-model="form.description"></textarea>
+				<textarea class="form-control" id="description" name="description" rows="7"
+					v-model.trim="form.description"></textarea>
+			</div>
+			<div class="col-6">
+				<label for="thumbnail">Immagine</label>
+				<input type="file" name="thumbnail" id="thumbnail" class="form-control">
+			</div>
+			<div class="col-4 mx-5 border">
+				<img :src="form.thumbnail" alt="Selected image" class="img-fluid">
 			</div>
 			<div class="col-3">
 				<label for="bedrooms" class="form-label">Stanze da letto</label>
-				<input type="number" name="bedrooms" id="bedrooms" class="form-control" v-model="form.bedrooms">
+				<input type="number" name="bedrooms" id="bedrooms" class="form-control" v-model.trim="form.bedrooms">
 			</div>
 			<div class="col-3">
 				<label for="rooms" class="form-label">Stanze</label>
-				<input type="number" name="rooms" id="rooms" class="form-control" v-model="form.rooms">
+				<input type="number" name="rooms" id="rooms" class="form-control" v-model.trim="form.rooms">
 			</div>
 			<div class="col-3">
 				<label for="bathrooms" class="form-label">Bagni</label>
-				<input type="number" name="bathrooms" id="bathrooms" class="form-control" v-model="form.bathrooms">
+				<input type="number" name="bathrooms" id="bathrooms" class="form-control" v-model.trim="form.bathrooms">
 			</div>
 			<div class="col-3">
 				<label for="square_meters" class="form-label">Metri quadrati</label>
-				<input type="number" name="square_meters" id="square_meters" class="form-control" v-model="form.squrare_meters">
+				<input type="number" name="square_meters" id="square_meters" class="form-control"
+					v-model.trim="form.squrare_meters">
 			</div>
 			<div class="col-12">
 				<div class="form-check form-switch">
-					<label class="form-check-label" for="visible">Rendi visibile</label>
-					<input class="form-check-input" type="checkbox" id="visible" name="visible" v-model="form.visible">
+					<label v-if="!form.visible" class="form-check-label" for="visible">Rendi visibile</label>
+					<label v-else class="form-check-label" for="visible">Rendi invisibile</label>
+					<input class="form-check-input" type="checkbox" id="visible" name="visible" v-model.trim="form.visible">
 				</div>
 			</div>
 			<div class="col-12">
