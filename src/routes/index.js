@@ -1,22 +1,39 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHistory } from 'vue-router';
 import LoginPage from '../pages/LoginPage.vue';
 import HomePage from '../pages/HomePage.vue';
-
+import CreateApartmentPage from '../pages/CreateApartmentPage.vue';
 
 const router = createRouter({
-    history: createWebHistory(),
-    routes:[        
-        {
-            path: '/',
-            component: HomePage,
-            name: 'home',
-        },
-        {
-            path: '/login',
-            component: LoginPage,
-            name: 'login',
-        }
-    ]
-})
+	history: createWebHistory(),
+	routes: [
+		{
+			path: '/',
+			component: HomePage,
+			name: 'home',
+		},
+		{
+			path: '/login',
+			component: LoginPage,
+			name: 'login',
+			meta: {
+				requiresGuest: true,
+			},
+		},
+		{
+			path: '/user',
+			name: 'registered-user',
+			meta: {
+				requiresLogin: true,
+			},
+			children: [
+				{
+					path: '/add-apartment',
+					component: CreateApartmentPage,
+					name: 'apartments.create',
+				},
+			],
+		},
+	],
+});
 
-export {router}
+export { router };
