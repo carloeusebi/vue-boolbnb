@@ -12,6 +12,11 @@ const router = createRouter({
 			name: 'home',
 		},
 		{
+			path: '/apartments/:slug',
+			component: ApartmentDetailPage,
+			name: 'apartment-detail',
+		},
+		{
 			path: '/login',
 			component: LoginPage,
 			name: 'login',
