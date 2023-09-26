@@ -2,7 +2,7 @@
 import axios, { isAxiosError } from 'axios';
 
 const SEARCH_ENDPOINT = 'https://api.tomtom.com/search/2/search';
-const GEOCODE_ENDPOINT = 'https://api.tomtom.com/search/2/geoddcode';
+const GEOCODE_ENDPOINT = 'https://api.tomtom.com/search/2/geocode';
 const TOM_TOM_KEY = import.meta.env.VITE_TOM_TOM_KEY;
 
 const params = { key: TOM_TOM_KEY, language: 'it-IT', countrySet: 'IT' };
