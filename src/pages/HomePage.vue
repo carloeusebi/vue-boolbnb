@@ -37,7 +37,7 @@ export default {
 
 
 		<!-- CARDS: -->
-		<div class="container pb-5 p-0 m-0">
+		<div class="container bg-light rounded-1 pb-5 p-0 m-0">
 
 			<h2 class="text-center text-secondary  pt-3 pb-3">Apartments:</h2>
 
@@ -50,9 +50,8 @@ export default {
 							<div class="card-body">
 								<h5 class="card-title">{{ apartment.name }}</h5>
 								<div class="d-flex justify-content-between align-items-center">
-									<a href="#">View...</a>
-									<!--<RouterLink :to="{ name: 'ApartmentDetailPage', params: { slug: apartment.slug } }">
-										View...</RouterLink>-->
+									<RouterLink :to="{ name: 'ApartmentDetailPage', params: { slug: apartment.slug } }">
+										View...</RouterLink>
 								</div>
 							</div>
 						</div>
@@ -67,12 +66,16 @@ export default {
 </template>
 
 <style scoped>
+.cards_deck {
+	max-width: 1200px;
+}
+
 .cards_deck .card_container {
 	width: fit-content;
 	max-width: 300px;
 }
 
-.cards_deck {
-	max-width: 1200px;
+.cards_deck img {
+	border-radius: 5px;
 }
 </style>
