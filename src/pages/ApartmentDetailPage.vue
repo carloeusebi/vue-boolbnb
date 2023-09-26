@@ -1,20 +1,36 @@
 <script>
 import axios from 'axios';
 const baseUri = 'http://127.0.0.1:8000/api/apartments/';
+const TOM_TOM_KEY = import.meta.env.VITE_TOM_TOM_KEY;
+
+
 
 export default {
     name: 'ApartmentDetailPage',
     data() {
         return {
-            apartment: null
+            apartment: null,
+            map: null
         }
     },
     methods: {
+        // apartment
         getApartment() {
             const endpoint = baseUri + this.$route.params.slug;
 
             axios.get(endpoint)
-                .then(res => { this.apartment = res.data })
+                .then(res => {
+                    this.apartment = res.data;
+                    this.fetchMap();
+                })
+        },
+        // map
+        fetchMap() {
+
+            const IMAGE_MAP_ENDPOINT = `http://api.tomtom.com/map/1/staticimage?key=${TOM_TOM_KEY}`;
+
+            axios.get(`${IMAGE_MAP_ENDPOINT}&center=${this.apartment.lat},${this.apartment.lon}&zoom=9&width=800&height=500&format=jpg&layer=basic&style=main&language=it-IT`)
+                .then(res => { this.map = res.data })
         }
     },
     created() {
@@ -74,6 +90,12 @@ export default {
 
                     </div>
 
+                </div>
+                <!-- map -->
+                <div id="map">
+                    mappa
+
+                    <img :src="`${map}`" :alt="`${apartment.name}`">
                 </div>
             </div>
         </div>
