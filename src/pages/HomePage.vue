@@ -36,16 +36,15 @@ export default {
 		<hr>
 
 
+		<h2 class="text-center text-secondary  pt-3 pb-3">Apartments:</h2>
 		<!-- CARDS: -->
-		<div class="container bg-light rounded-1 pb-5 p-0 m-0">
-
-			<h2 class="text-center text-secondary  pt-3 pb-3">Apartments:</h2>
+		<div class="d-flex justify-content-center  container bg-light rounded-1 pb-5 p-0 m-0">
 
 			<div class="cards_deck row justify-content-center gap-5 m-0 p-0">
 				<div class="card_container" v-for="apartment in notSponsorApartments" :key="apartment.id">
 					<div class="col-12 col-md-10 col-lg-8">
-						<div style="width: max-content;" class="card">
-							<img :src="`http://localhost:8000/storage/${apartment.thumbnail}`" class="image-fluid"
+						<div style="width: 300px;" class="card">
+							<img :src="`http://localhost:8000/storage/${apartment.thumbnail}`" class="img-fluid"
 								:alt="apartment.name">
 							<div class="card-body">
 								<h5 class="card-title">{{ apartment.name }}</h5>
