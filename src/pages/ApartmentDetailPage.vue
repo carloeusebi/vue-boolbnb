@@ -98,7 +98,9 @@ export default {
                 </div>
                 <!-- map -->
                 <div id="map">
-                    mappa
+                    <!-- #######################################
+                         ########## AGGIUNGERE MAPPA ###########
+                         ######################################-->
 
                     <img :src="`${map}`" :alt="`${apartment.name}`">
                 </div>
