@@ -37,7 +37,8 @@ export default {
         deleteApartment(apartment) {
 
             axiosInstance.delete(endpoint + '/' + this.apartment.id).then(res => {
-                console.log('Appartamento eliminato')
+                console.log('Appartamento eliminato');
+                this.$router.push('/');
             })
 
         }
