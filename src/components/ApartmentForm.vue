@@ -32,9 +32,7 @@ export default {
 	props: {
 		apartment: {
 			type: Object,
-			default() {
-				return emptyForm;
-			},
+			default: emptyForm,
 		},
 		errors: {},
 	},
@@ -55,80 +53,80 @@ export default {
 		isBackValid() {
 			return window.history.state.back
 		},
-	},
-	emits: ["form-submit"],
-	methods: {
-		goBack() {
-			window.history.back()
-		},
+		emits: ["form-submit"],
+		methods: {
+			goBack() {
+				window.history.back()
+			},
 
-		loadPicture(event) {
-			this.thumbnail = event.target.files[0];
-		},
-		/**
-		 * After every keypress, if half a second after last keypress has passed, search for similar addresses and provide autocompletion.
-		 */
-		handleAddressInput() {
-			const timeoutDuration = 500;
-			// deletes previous timeout
-			clearTimeout(this.addressTimeout);
-			// sets a new timeout
-			this.addressTimeout = setTimeout(() => {
+			loadPicture(event) {
+				this.thumbnail = event.target.files[0];
+			},
+			/**
+			 * After every keypress, if half a second after last keypress has passed, search for similar addresses and provide autocompletion.
+			 */
+			handleAddressInput() {
+				const timeoutDuration = 500;
+				// deletes previous timeout
+				clearTimeout(this.addressTimeout);
+				// sets a new timeout
+				this.addressTimeout = setTimeout(() => {
+					// if address is empty, skip
+					if (!this.form.address)
+						return;
+					axios
+						.get(`${SEARCH_ENDPOINT}/${this.form.address}.json`, { params })
+						.then((res) => {
+							this.suggestedAddresses = [];
+							const addresses = res.data.results;
+							addresses.forEach((address) => {
+								this.suggestedAddresses.push(address.address.freeformAddress);
+							});
+						});
+				}, timeoutDuration);
+			},
+			/**
+			 * Get Coordinates using TomTom's api.
+			 */
+			getCoordinates() {
+				this.fetchingCoordinates = true;
 				// if address is empty, skip
 				if (!this.form.address)
 					return;
 				axios
-					.get(`${SEARCH_ENDPOINT}/${this.form.address}.json`, { params })
+					.get(`${GEOCODE_ENDPOINT}/${this.form.address}.json`, { params })
 					.then((res) => {
-						this.suggestedAddresses = [];
-						const addresses = res.data.results;
-						addresses.forEach((address) => {
-							this.suggestedAddresses.push(address.address.freeformAddress);
-						});
+						if (res.data.results.length === 0) {
+							//TODO Implement proper error handling
+							console.error("INDIRIZZO NON VALIDO");
+							return;
+						}
+						const { position } = res.data.results[0];
+						this.form.lat = position.lat;
+						this.form.lon = position.lon;
+					})
+					.then(() => {
+						this.fetchingCoordinates = false;
 					});
-			}, timeoutDuration);
-		},
-		/**
-		 * Get Coordinates using TomTom's api.
-		 */
-		getCoordinates() {
-			this.fetchingCoordinates = true;
-			// if address is empty, skip
-			if (!this.form.address)
-				return;
-			axios
-				.get(`${GEOCODE_ENDPOINT}/${this.form.address}.json`, { params })
-				.then((res) => {
-					if (res.data.results.length === 0) {
-						//TODO Implement proper error handling
-						console.error("INDIRIZZO NON VALIDO");
-						return;
-					}
-					const { position } = res.data.results[0];
-					this.form.lat = position.lat;
-					this.form.lon = position.lon;
-				})
-				.then(() => {
-					this.fetchingCoordinates = false;
-				});
-		},
-		/**
-		 * Handles the form submission
-		 */
-		handleFormSubmit() {
-			// 	//todo checks if there are not errors
-			const formData = new FormData();
-			formData.append('thumbnail', this.thumbnail);
+			},
+			/**
+			 * Handles the form submission
+			 */
+			handleFormSubmit() {
+				// 	//todo checks if there are not errors
+				const formData = new FormData();
+				formData.append('thumbnail', this.thumbnail);
 
-			for (let key in this.form) {
-				formData.append(key, this.form[key])
-			}
+				for (let key in this.form) {
+					formData.append(key, this.form[key])
+				}
 
-			this.$emit("form-submit", formData);
+				this.$emit("form-submit", formData);
+			},
 		},
-	},
-	components: { RouterLink }
-};
+		components: { RouterLink }
+	}
+}
 </script>
 
 <template>
