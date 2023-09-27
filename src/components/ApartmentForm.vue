@@ -11,7 +11,6 @@ const emptyForm = {
 	// TO CHANGE
 	user_id: 1,
 	name: "",
-	slug: "",
 	description: "",
 	thumbnail: "",
 	address: "",
@@ -50,11 +49,9 @@ export default {
 			return this.fetchingCoordinates;
 		},
 
-		slugGenerator() {
-			this.form.slug = this.form.name.toLowerCase().split(' ').join('-');
+		slug() {
+			return this.form.name.toLowerCase().split(' ').join('-');
 		},
-
-
 
 		// hasError() {
 		// 	return Object.keys(this.errors).length;
@@ -150,10 +147,10 @@ export default {
 					{{ errors.name }}
 				</div>
 			</div>
-			<div class="col-6">
+			<!-- <div class="col-6">
 				<label for="slug" class="form-label">Slug</label>
-				<input type="text" class="form-control" id="slug" disabled :value="form.slug">
-			</div>
+				<input type="text" class="form-control" id="slug" disabled :value="slug">
+			</div> -->
 			<div class="col-12">
 				<label for="address" class="form-label">Indirizzo</label>
 				<input @input="handleAddressInput" @focusout="getCoordinates" type="text" v-model.trim="form.address"
