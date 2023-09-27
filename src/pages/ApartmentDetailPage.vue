@@ -55,7 +55,7 @@ export default {
                     <!-- image -->
                     <figure>
                         <img :src="`http://localhost:8000/storage/${apartment.thumbnail}`" :alt="`${apartment.name}`"
-                            class="rounded">
+                            class="rounded img-fluid">
                     </figure>
                 </div>
                 <div class="col">
