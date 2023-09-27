@@ -1,7 +1,9 @@
 <script>
 import axios from 'axios';
+import { axiosInstance } from '../assets/axios';
 const baseUri = 'http://127.0.0.1:8000/api/apartments/';
 const TOM_TOM_KEY = import.meta.env.VITE_TOM_TOM_KEY;
+const endpoint = '/api/apartments'
 
 
 
@@ -31,6 +33,13 @@ export default {
 
             axios.get(`${IMAGE_MAP_ENDPOINT}&center=${this.apartment.lat},${this.apartment.lon}&zoom=9&width=800&height=500&format=jpg&layer=basic&style=main&language=it-IT`)
                 .then(res => { this.map = res.data })
+        },
+        deleteApartment(apartment) {
+
+            axiosInstance.delete(endpoint + '/' + this.apartment.id).then(res => {
+                console.log('Appartamento eliminato')
+            })
+
         }
     },
     created() {
@@ -50,10 +59,15 @@ export default {
         </header>
         <div class="container mt-4">
             <!-- buttons -->
-            <div class="d-flex justify-content-end align-items-baseline mb-4">
+            <div class="d-flex justify-content-end align-items-center mb-4">
                 <!-- edit -->
-                <RouterLink :to="{ name: 'apartments.edit', params: { slug: apartment.slug } }" class="btn btn-secondary">
+                <RouterLink :to="{ name: 'apartments.edit', params: { slug: apartment.slug } }"
+                    class="btn btn-secondary mx-4">
                     Modifica</RouterLink>
+
+                <!-- delete -->
+                <button @click="deleteApartment" class="btn btn-danger">Cancella</button>
+
             </div>
 
             <div class="row row-cols-sm-1 row-cols-md-2">
