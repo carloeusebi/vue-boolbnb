@@ -39,7 +39,7 @@ const router = createRouter({
 					name: 'apartments.create',
 				},
 				{
-					path: '/edit-apartment:slug',
+					path: '/edit-apartment/:slug',
 					component: ApartmentEditPage,
 					name: 'apartments.edit',
 				},
