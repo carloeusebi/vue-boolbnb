@@ -128,7 +128,7 @@ export default {
 
 
 			<!-- Name -->
-			<div class="col-6">
+			<div class="col-lg-6 col-sm-12">
 				<label for="name" class="form-label">Titolo</label>
 				<input type="text" :class="[{ 'is-invalid': errors.name && !form.name }, 'form-control']" id="name" name="name"
 					v-model.trim="form.name">
@@ -138,13 +138,13 @@ export default {
 			</div>
 
 			<!-- Slug -->
-			<div class="col-6">
+			<!-- <div class="col-6">
 				<label for="slug" class="form-label">Slug</label>
 				<input type="text" class="form-control" id="slug" disabled :value="form.slug">
-			</div>
+			</div> -->
 
 			<!-- Address -->
-			<div class="col-12">
+			<div class="col-lg-6 col-sm-12">
 				<label for="address" class="form-label">Indirizzo</label>
 				<input @input="handleAddressInput" @focusout="getCoordinates" type="text" v-model.trim="form.address"
 					list="addresses" :class="[{ 'is-invalid': errors.address && !form.address }, 'form-control']" id="address" />
@@ -177,7 +177,7 @@ export default {
 			</div>
 
 			<!-- Bedrooms -->
-			<div class="col-3">
+			<div class="col-lg-3 col-sm-6">
 				<label for="bedrooms" class="form-label">Stanze da letto</label>
 				<input type="number" name="bedrooms" id="bedrooms"
 					:class="[{ 'is-invalid': errors.bedrooms && !form.bedrooms }, 'form-control']" v-model.trim="form.bedrooms">
@@ -187,7 +187,7 @@ export default {
 			</div>
 
 			<!-- Rooms -->
-			<div class="col-3">
+			<div class="col-lg-3 col-sm-6">
 				<label for="rooms" class="form-label">Stanze</label>
 				<input type="number" name="rooms" id="rooms"
 					:class="[{ 'is-invalid': errors.rooms && !form.rooms }, 'form-control']" v-model.trim="form.rooms">
@@ -197,7 +197,7 @@ export default {
 			</div>
 
 			<!-- Bathrooms -->
-			<div class="col-3">
+			<div class="col-lg-3 col-sm-6">
 				<label for="bathrooms" class="form-label">Bagni</label>
 				<input type="number" name="bathrooms" id="bathrooms"
 					:class="[{ 'is-invalid': errors.bathrooms && !form.bathrooms }, 'form-control']" v-model.trim="form.bathrooms">
@@ -207,7 +207,7 @@ export default {
 			</div>
 
 			<!-- Square_meters -->
-			<div class="col-3">
+			<div class="col-lg-3 col-sm-6">
 				<label for="square_meters" class="form-label">Metri quadrati</label>
 				<input type="number" name="square_meters" id="square_meters"
 					:class="[{ 'is-invalid': errors.square_meters && !form.square_meters }, 'form-control']"
@@ -225,8 +225,10 @@ export default {
 					<input class="form-check-input" type="checkbox" id="visible" name="visible" v-model.trim="form.visible">
 				</div>
 			</div>
-			<div class="col-12">
+			<div class="col-12 mt-4 text-sm-center text-md-start">
 				<button type="submit" class="btn btn-primary">Crea appartamento</button>
+				<button type="button" class="btn btn-secondary mx-2">Torna indetro</button>
+
 			</div>
 		</form>
 	</div>
