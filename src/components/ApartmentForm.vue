@@ -124,7 +124,10 @@ export default {
 
 <template>
 	<div class="container mt-5">
-		<form @submit.prevent="handleFormSubmit" class="row g-3">
+		<form @submit.prevent="handleFormSubmit" class="row g-3" enctype="multipart/form-data">
+
+
+			<!-- Name -->
 			<div class="col-6">
 				<label for="name" class="form-label">Titolo</label>
 				<input type="text" :class="[{ 'is-invalid': errors.name && !form.name }, 'form-control']" id="name" name="name"
@@ -133,10 +136,14 @@ export default {
 					{{ errors.name }}
 				</div>
 			</div>
+
+			<!-- Slug -->
 			<div class="col-6">
 				<label for="slug" class="form-label">Slug</label>
 				<input type="text" class="form-control" id="slug" disabled :value="form.slug">
 			</div>
+
+			<!-- Address -->
 			<div class="col-12">
 				<label for="address" class="form-label">Indirizzo</label>
 				<input @input="handleAddressInput" @focusout="getCoordinates" type="text" v-model.trim="form.address"
@@ -148,6 +155,8 @@ export default {
 					<option v-for=" address  in  suggestedAddresses " :key="address" :value="address"></option>
 				</datalist>
 			</div>
+
+			<!-- Description -->
 			<div class="col-12">
 				<label for="description" class="form-label">Descrizione</label>
 				<textarea :class="[{ 'is-invalid': errors.description && !form.description }, 'form-control']" id="description"
@@ -156,6 +165,8 @@ export default {
 					{{ errors.description }}
 				</div>
 			</div>
+
+			<!-- Thumbnail -->
 			<div class="col-12">
 				<label for="thumbnail">Immagine</label>
 				<input type="file" name="thumbnail" id="thumbnail"
@@ -164,9 +175,8 @@ export default {
 					{{ errors.image }}
 				</div>
 			</div>
-			<!-- <div class="col-4 mx-5 border">
-				<img :src="form.thumbnail" alt="Selected image" class="img-fluid">
-			</div> -->
+
+			<!-- Bedrooms -->
 			<div class="col-3">
 				<label for="bedrooms" class="form-label">Stanze da letto</label>
 				<input type="number" name="bedrooms" id="bedrooms"
@@ -175,6 +185,8 @@ export default {
 					{{ errors.bedrooms }}
 				</div>
 			</div>
+
+			<!-- Rooms -->
 			<div class="col-3">
 				<label for="rooms" class="form-label">Stanze</label>
 				<input type="number" name="rooms" id="rooms"
@@ -183,6 +195,8 @@ export default {
 					{{ errors.rooms }}
 				</div>
 			</div>
+
+			<!-- Bathrooms -->
 			<div class="col-3">
 				<label for="bathrooms" class="form-label">Bagni</label>
 				<input type="number" name="bathrooms" id="bathrooms"
@@ -191,6 +205,8 @@ export default {
 					{{ errors.bathrooms }}
 				</div>
 			</div>
+
+			<!-- Square_meters -->
 			<div class="col-3">
 				<label for="square_meters" class="form-label">Metri quadrati</label>
 				<input type="number" name="square_meters" id="square_meters"
@@ -200,6 +216,8 @@ export default {
 					{{ errors.square_meters }}
 				</div>
 			</div>
+
+			<!-- Visible -->
 			<div class="col-12">
 				<div class="form-check form-switch">
 					<label v-if="!form.visible" class="form-check-label" for="visible">Rendi visibile</label>
