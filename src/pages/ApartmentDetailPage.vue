@@ -49,6 +49,13 @@ export default {
             </div>
         </header>
         <div class="container mt-4">
+            <!-- buttons -->
+            <div class="d-flex justify-content-end align-items-baseline mb-4">
+                <!-- edit -->
+                <RouterLink :to="{ name: 'apartments.edit', params: { slug: apartment.slug } }" class="btn btn-secondary">
+                    Modifica</RouterLink>
+            </div>
+
             <div class="row row-cols-sm-1 row-cols-md-2">
                 <div class="col" v-if="apartment.thumbnail">
 
