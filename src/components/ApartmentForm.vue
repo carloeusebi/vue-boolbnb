@@ -53,11 +53,6 @@ export default {
 			this.form.slug = this.form.name.toLowerCase().split(' ').join('-');
 		},
 
-
-
-		// hasError() {
-		// 	return Object.keys(this.errors).length;
-		// }
 	},
 
 	emits: ["form-submit"],
@@ -161,7 +156,7 @@ export default {
 					{{ errors.description }}
 				</div>
 			</div>
-			<div class="col-6">
+			<div class="col-12">
 				<label for="thumbnail">Immagine</label>
 				<input type="file" name="thumbnail" id="thumbnail"
 					:class="[{ 'is-invalid': errors.image && !form.image }, 'form-control']">
@@ -200,7 +195,7 @@ export default {
 				<label for="square_meters" class="form-label">Metri quadrati</label>
 				<input type="number" name="square_meters" id="square_meters"
 					:class="[{ 'is-invalid': errors.square_meters && !form.square_meters }, 'form-control']"
-					v-model.trim="form.squrare_meters">
+					v-model.trim="form.square_meters">
 				<div :class="[{ 'd-block': errors.square_meters && !form.square_meters }, 'invalid-feedback']">
 					{{ errors.square_meters }}
 				</div>
