@@ -44,6 +44,7 @@ export default {
 			addressTimeout: null,
 			suggestedAddresses: [],
 			fetchingCoordinates: false,
+			thumbnail: null,
 		};
 	},
 	computed: {
@@ -62,6 +63,10 @@ export default {
 	methods: {
 		goBack() {
 			window.history.back()
+		},
+
+		loadPicture(event) {
+			this.thumbnail = event.target.files[0];
 		},
 		/**
 		 * After every keypress, if half a second after last keypress has passed, search for similar addresses and provide autocompletion.
@@ -115,7 +120,14 @@ export default {
 		 */
 		handleFormSubmit() {
 			// 	//todo checks if there are not errors
-			this.$emit("form-submit", this.form);
+			const formData = new FormData();
+			formData.append('thumbnail', this.thumbnail);
+
+			for (let key in this.form) {
+				formData.append(key, this.form[key])
+			}
+
+			this.$emit("form-submit", formData);
 		},
 	},
 	components: { RouterLink }
@@ -169,7 +181,7 @@ export default {
 			<!-- Thumbnail -->
 			<div class="col-12">
 				<label for="thumbnail">Immagine</label>
-				<input type="file" name="thumbnail" id="thumbnail"
+				<input type="file" name="thumbnail" id="thumbnail" @input="loadPicture"
 					:class="[{ 'is-invalid': errors.image && !form.image }, 'form-control']">
 				<div :class="[{ 'd-block': errors.image && !form.image }, 'invalid-feedback']">
 					{{ errors.image }}
