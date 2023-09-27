@@ -53,12 +53,10 @@ export default {
 		isBackValid() {
 			return window.history.state.back
 		},
-		emits: ["form-submit"],
-		methods: {
-			goBack() {
-				window.history.back()
-			},
 
+		emits: ["form-submit"],
+
+		methods: {
 			loadPicture(event) {
 				this.thumbnail = event.target.files[0];
 			},
@@ -234,13 +232,13 @@ export default {
 			</div>
 			<div v-if="!apartment.slug" class="col-12 mt-4 text-sm-center text-md-start">
 				<button type="submit" class="btn btn-primary">Crea appartamento</button>
-				<button v-if="isBackValid" type="button" class="btn btn-secondary mx-2" @click="goBack()">Torna
+				<button v-if="isBackValid" type="button" class="btn btn-secondary mx-2" @click="$router.back">Torna
 					indietro</button>
 				<RouterLink v-else :to="{ name: 'home' }" class="btn btn-secondary mx-2">Torna indietro</RouterLink>
 			</div>
 			<div v-else class="col-12 mt-4 text-sm-center text-md-start">
 				<button type="submit" class="btn btn-warning">Modifica appartamento</button>
-				<button v-if="isBackValid" type="button" class="btn btn-secondary mx-2" @click="goBack()">Torna
+				<button v-if="isBackValid" type="button" class="btn btn-secondary mx-2" @click="$router.back">Torna
 					indietro</button>
 				<RouterLink v-else :to="{ name: 'home' }" class="btn btn-secondary mx-2">Torna indietro</RouterLink>
 			</div>
