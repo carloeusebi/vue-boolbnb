@@ -51,13 +51,10 @@ export default {
 		isFetchingCoordinates() {
 			return this.fetchingCoordinates;
 		},
-		slugGenerator() {
-			this.form.slug = this.form.name.toLowerCase().split(' ').join('-');
-		},
 
 		isBackValid() {
 			return window.history.state.back
-		}
+		},
 	},
 	emits: ["form-submit"],
 	methods: {
@@ -237,8 +234,14 @@ export default {
 					<input class="form-check-input" type="checkbox" id="visible" name="visible" v-model.trim="form.visible">
 				</div>
 			</div>
-			<div class="col-12 mt-4 text-sm-center text-md-start">
+			<div v-if="!apartment.slug" class="col-12 mt-4 text-sm-center text-md-start">
 				<button type="submit" class="btn btn-primary">Crea appartamento</button>
+				<button v-if="isBackValid" type="button" class="btn btn-secondary mx-2" @click="goBack()">Torna
+					indietro</button>
+				<RouterLink v-else :to="{ name: 'home' }" class="btn btn-secondary mx-2">Torna indietro</RouterLink>
+			</div>
+			<div v-else class="col-12 mt-4 text-sm-center text-md-start">
+				<button type="submit" class="btn btn-warning">Modifica appartamento</button>
 				<button v-if="isBackValid" type="button" class="btn btn-secondary mx-2" @click="goBack()">Torna
 					indietro</button>
 				<RouterLink v-else :to="{ name: 'home' }" class="btn btn-secondary mx-2">Torna indietro</RouterLink>
