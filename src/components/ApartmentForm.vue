@@ -133,7 +133,7 @@ export default {
 
 <template>
 	<div class="container mt-5">
-		<form @submit.prevent="handleFormSubmit" class="row g-3" enctype="multipart/form-data">
+		<form @submit.prevent="handleFormSubmit" class="row g-3">
 
 
 			<!-- Name -->
