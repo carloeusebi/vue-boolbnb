@@ -41,6 +41,7 @@ export default {
 			addressTimeout: null,
 			suggestedAddresses: [],
 			fetchingCoordinates: false,
+			thumbnail: null,
 		};
 	},
 
@@ -63,6 +64,10 @@ export default {
 	emits: ["form-submit"],
 
 	methods: {
+
+		loadPicture(event) {
+			this.thumbnail = event.target.files[0];
+		},
 		/**
 		 * After every keypress, if half a second after last keypress has passed, search for similar addresses and provide autocompletion.
 		 */
@@ -121,7 +126,14 @@ export default {
 		 */
 		handleFormSubmit() {
 			// 	//todo checks if there are not errors
-			this.$emit("form-submit", this.form);
+			const formData = new FormData();
+			formData.append('thumbnail', this.thumbnail);
+
+			for (let key in this.form) {
+				formData.append(key, this.form[key])
+			}
+
+			this.$emit("form-submit", formData);
 		},
 	},
 };
@@ -132,8 +144,8 @@ export default {
 		<form @submit.prevent="handleFormSubmit" class="row g-3">
 			<div class="col-6">
 				<label for="name" class="form-label">Titolo</label>
-				<input type="text" :class="[{ 'is-invalid': errors.name && !form.name }, 'form-control']" id="name" name="name"
-					v-model.trim="form.name">
+				<input type="text" :class="[{ 'is-invalid': errors.name && !form.name }, 'form-control']" id="name"
+					name="name" v-model.trim="form.name">
 				<div :class="[{ 'd-block': errors.name && !form.name }, 'invalid-feedback']">
 					{{ errors.name }}
 				</div>
@@ -145,7 +157,8 @@ export default {
 			<div class="col-12">
 				<label for="address" class="form-label">Indirizzo</label>
 				<input @input="handleAddressInput" @focusout="getCoordinates" type="text" v-model.trim="form.address"
-					list="addresses" :class="[{ 'is-invalid': errors.address && !form.address }, 'form-control']" id="address" />
+					list="addresses" :class="[{ 'is-invalid': errors.address && !form.address }, 'form-control']"
+					id="address" />
 				<div :class="[{ 'd-block': errors.address && !form.address }, 'invalid-feedback']">
 					{{ errors.address }}
 				</div>
@@ -155,15 +168,15 @@ export default {
 			</div>
 			<div class="col-12">
 				<label for="description" class="form-label">Descrizione</label>
-				<textarea :class="[{ 'is-invalid': errors.description && !form.description }, 'form-control']" id="description"
-					name="description" rows="7" v-model.trim="form.description"></textarea>
+				<textarea :class="[{ 'is-invalid': errors.description && !form.description }, 'form-control']"
+					id="description" name="description" rows="7" v-model.trim="form.description"></textarea>
 				<div :class="[{ 'd-block': errors.description && !form.description }, 'invalid-feedback']">
 					{{ errors.description }}
 				</div>
 			</div>
 			<div class="col-6">
 				<label for="thumbnail">Immagine</label>
-				<input type="file" name="thumbnail" id="thumbnail"
+				<input type="file" name="thumbnail" id="thumbnail" @input="loadPicture"
 					:class="[{ 'is-invalid': errors.image && !form.image }, 'form-control']">
 				<div :class="[{ 'd-block': errors.image && !form.image }, 'invalid-feedback']">
 					{{ errors.image }}
@@ -175,7 +188,8 @@ export default {
 			<div class="col-3">
 				<label for="bedrooms" class="form-label">Stanze da letto</label>
 				<input type="number" name="bedrooms" id="bedrooms"
-					:class="[{ 'is-invalid': errors.bedrooms && !form.bedrooms }, 'form-control']" v-model.trim="form.bedrooms">
+					:class="[{ 'is-invalid': errors.bedrooms && !form.bedrooms }, 'form-control']"
+					v-model.trim="form.bedrooms">
 				<div :class="[{ 'd-block': errors.bedrooms && !form.bedrooms }, 'invalid-feedback']">
 					{{ errors.bedrooms }}
 				</div>
@@ -191,7 +205,8 @@ export default {
 			<div class="col-3">
 				<label for="bathrooms" class="form-label">Bagni</label>
 				<input type="number" name="bathrooms" id="bathrooms"
-					:class="[{ 'is-invalid': errors.bathrooms && !form.bathrooms }, 'form-control']" v-model.trim="form.bathrooms">
+					:class="[{ 'is-invalid': errors.bathrooms && !form.bathrooms }, 'form-control']"
+					v-model.trim="form.bathrooms">
 				<div :class="[{ 'd-block': errors.bathrooms && !form.bathrooms }, 'invalid-feedback']">
 					{{ errors.bathrooms }}
 				</div>

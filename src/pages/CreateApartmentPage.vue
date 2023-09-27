@@ -14,7 +14,10 @@ export default {
 	components: { ApartmentForm },
 	methods: {
 		createApartment(apartment) {
-			axiosInstance.post(endpoint, apartment)
+			console.log(apartment);
+			const headers = { headers: { 'Content-Type': 'multipart/form-data' } };
+
+			axiosInstance.post(endpoint, apartment, headers)
 				.then(res => {
 					console.log('Perfetto')
 				})

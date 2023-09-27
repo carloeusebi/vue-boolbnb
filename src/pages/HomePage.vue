@@ -50,7 +50,7 @@ export default {
 							<div class="card-body">
 								<h5 class="card-title">{{ apartment.name }}</h5>
 								<div class="d-flex justify-content-between align-items-center">
-									<RouterLink :to="{ name: 'ApartmentDetailPage', params: { slug: apartment.slug } }">
+									<RouterLink :to="{ name: 'apartment-detail', params: { slug: apartment.slug } }">
 										View...</RouterLink>
 								</div>
 							</div>
