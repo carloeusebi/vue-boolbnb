@@ -38,7 +38,7 @@ export default {
 
 		<h2 class="text-center text-secondary  pt-3 pb-3">Apartments:</h2>
 		<!-- CARDS: -->
-		<div class="d-flex justify-content-center bg-light rounded-1 pt-4 pb-5 p-0 m-0">
+		<div class="d-flex justify-content-center rounded-1 pt-4 pb-5 p-0 m-0">
 
 			<div class="cards_deck row justify-content-center justify-content-lg-start gap-5 m-0 p-0">
 				<div class="card_container p-0" v-for="apartment in notSponsorApartments" :key="apartment.id">
@@ -71,6 +71,10 @@ export default {
 
 .cards_deck .card_container {
 	max-width: 300px;
+}
+
+.cards_deck .card_container .card {
+	box-shadow: 0px 0px 25px 5px #bbbbbb;
 }
 
 .cards_deck img {
