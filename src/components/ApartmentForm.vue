@@ -1,5 +1,8 @@
 <script>
 import axios from "axios";
+import { RouterLink } from "vue-router";
+
+const baseURL = import.meta.env.VITE_BACKEND_URL
 
 const SEARCH_ENDPOINT = "https://api.tomtom.com/search/2/search";
 const GEOCODE_ENDPOINT = "https://api.tomtom.com/search/2/geocode";
@@ -43,57 +46,54 @@ export default {
 			fetchingCoordinates: false,
 		};
 	},
-
 	computed: {
 		isFetchingCoordinates() {
 			return this.fetchingCoordinates;
 		},
-
 		slugGenerator() {
 			this.form.slug = this.form.name.toLowerCase().split(' ').join('-');
 		},
 
+		isBackValid() {
+			return window.history.state.back
+		}
 	},
-
 	emits: ["form-submit"],
-
 	methods: {
+		goBack() {
+			window.history.back()
+		},
 		/**
 		 * After every keypress, if half a second after last keypress has passed, search for similar addresses and provide autocompletion.
 		 */
 		handleAddressInput() {
 			const timeoutDuration = 500;
-
 			// deletes previous timeout
 			clearTimeout(this.addressTimeout);
-
 			// sets a new timeout
 			this.addressTimeout = setTimeout(() => {
 				// if address is empty, skip
-				if (!this.form.address) return;
-
+				if (!this.form.address)
+					return;
 				axios
 					.get(`${SEARCH_ENDPOINT}/${this.form.address}.json`, { params })
 					.then((res) => {
 						this.suggestedAddresses = [];
 						const addresses = res.data.results;
-
 						addresses.forEach((address) => {
 							this.suggestedAddresses.push(address.address.freeformAddress);
 						});
 					});
 			}, timeoutDuration);
 		},
-
 		/**
 		 * Get Coordinates using TomTom's api.
 		 */
 		getCoordinates() {
 			this.fetchingCoordinates = true;
-
 			// if address is empty, skip
-			if (!this.form.address) return;
-
+			if (!this.form.address)
+				return;
 			axios
 				.get(`${GEOCODE_ENDPOINT}/${this.form.address}.json`, { params })
 				.then((res) => {
@@ -110,7 +110,6 @@ export default {
 					this.fetchingCoordinates = false;
 				});
 		},
-
 		/**
 		 * Handles the form submission
 		 */
@@ -119,6 +118,7 @@ export default {
 			this.$emit("form-submit", this.form);
 		},
 	},
+	components: { RouterLink }
 };
 </script>
 
@@ -227,8 +227,9 @@ export default {
 			</div>
 			<div class="col-12 mt-4 text-sm-center text-md-start">
 				<button type="submit" class="btn btn-primary">Crea appartamento</button>
-				<button type="button" class="btn btn-secondary mx-2">Torna indetro</button>
-
+				<button v-if="isBackValid" type="button" class="btn btn-secondary mx-2" @click="goBack()">Torna
+					indietro</button>
+				<RouterLink v-else :to="{ name: 'home' }" class="btn btn-secondary mx-2">Torna indietro</RouterLink>
 			</div>
 		</form>
 	</div>
