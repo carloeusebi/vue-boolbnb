@@ -49,8 +49,8 @@ export default {
             </div>
         </header>
         <div class="container mt-4">
-            <div class="row">
-                <div class="col">
+            <div class="row row-cols-sm-1 row-cols-md-2">
+                <div class="col" v-if="apartment.thumbnail">
 
                     <!-- image -->
                     <figure>
@@ -63,29 +63,34 @@ export default {
                     <!-- apartment' info -->
                     <div>
                         <h4 class="text-secondary text-uppercase">Descrizione appartamento :</h4>
-                        <p>{{ apartment.description }}</p>
+                        <p v-if="apartment.description">{{ apartment.description }}</p>
+                        <p v-else> -- </p>
 
                         <!-- features -->
                         <h4 class="text-secondary text-uppercase pt-3 pb-2">Caratteristiche:</h4>
                         <!-- rooms -->
                         <div class="d-flex align-items-baseline">
                             <span>Stanze : </span>
-                            <h6 class="ps-4">{{ apartment.rooms }}</h6>
+                            <h6 class="ps-4" v-if="apartment.rooms">{{ apartment.rooms }}</h6>
+                            <span class="ps-4" v-else> -- </span>
                         </div>
                         <!-- bathrooms -->
                         <div class="d-flex align-items-baseline">
                             <span>Bagni : </span>
-                            <h6 class="ps-4">{{ apartment.bathrooms }}</h6>
+                            <h6 class="ps-4" v-if="apartment.bathrooms">{{ apartment.bathrooms }}</h6>
+                            <span class="ps-4" v-else> -- </span>
                         </div>
                         <!-- bedrooms -->
                         <div class="d-flex align-items-baseline">
                             <span>Stanze da letto : </span>
-                            <h6 class="ps-4">{{ apartment.bedrooms }}</h6>
+                            <h6 class="ps-4" v-if="apartment.bedrooms">{{ apartment.bedrooms }}</h6>
+                            <span class="ps-4" v-else> -- </span>
                         </div>
                         <!-- square_meters -->
                         <div class="d-flex align-items-baseline">
                             <span>Metri Quadri : </span>
-                            <h6 class="ps-4">{{ apartment.square_meters }} m&sup2;</h6>
+                            <h6 class="ps-4" v-if="apartment.square_meters">{{ apartment.square_meters }} m&sup2;</h6>
+                            <span class="ps-4" v-else> -- </span>
                         </div>
 
                     </div>
