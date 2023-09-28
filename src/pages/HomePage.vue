@@ -1,24 +1,31 @@
 <script>
-import axios from 'axios';
-const endpoint = 'http://localhost:8000/api/apartments/';
+
+import { axiosInstance } from '../assets/axios'
+
+const apartmentEndpoint = '/api/apartments/';
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 export default {
 	name: 'HomePage',
 
 	data() {
 		return {
-			notSponsorApartments: [
+			nonSponsoredApartments: [
 
 			],
 		};
 	},
+
+	methods: {
+		scrUrl(url) {
+			return url ? `${backendUrl}/storage/${url}` : 'placeholder.png';
+		}
+	},
+
 	created() {
-		axios.get(endpoint).then(res => {
-
+		axiosInstance.get(apartmentEndpoint).then(res => {
 			const apartments = res.data;
-
-			this.notSponsorApartments = apartments.filter(apartment => !apartment.sponsored);
-
+			this.nonSponsoredApartments = apartments.filter(apartment => !apartment.sponsored);
 		});
 
 	}
@@ -40,12 +47,11 @@ export default {
 		<!-- CARDS: -->
 		<div class="d-flex justify-content-center rounded-1 pt-4 pb-5 p-0 m-0">
 
-			<div class="cards_deck row justify-content-center justify-content-lg-start gap-5 m-0 p-0">
-				<div class="card_container p-0" v-for="apartment in notSponsorApartments" :key="apartment.id">
+			<div class="cards_deck row justify-content-center gap-5 m-0 p-0">
+				<div class="card_container p-0" v-for="apartment in nonSponsoredApartments" :key="apartment.id">
 					<div class="col-12 col-md-10 col-lg-8">
 						<div style="width: 300px;" class="card">
-							<img :src="`http://localhost:8000/storage/${apartment.thumbnail}`" class="img-fluid"
-								:alt="apartment.name">
+							<img :src="scrUrl(apartment.thumbnail)" class="img-fluid" :alt="apartment.name">
 							<div class="card-body">
 								<h5 class="card-title">{{ apartment.name }}</h5>
 								<div class="d-flex justify-content-between align-items-center">
@@ -79,5 +85,10 @@ export default {
 
 .cards_deck img {
 	border-radius: 5px;
+}
+
+.card img {
+	object-fit: fill;
+	height: 200px;
 }
 </style>
