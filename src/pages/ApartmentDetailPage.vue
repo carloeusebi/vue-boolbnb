@@ -1,7 +1,9 @@
 <script>
 import axios from 'axios';
+import { axiosInstance } from '../assets/axios';
 const baseUri = 'http://127.0.0.1:8000/api/apartments/';
 const TOM_TOM_KEY = import.meta.env.VITE_TOM_TOM_KEY;
+const endpoint = '/api/apartments'
 
 
 
@@ -10,7 +12,8 @@ export default {
     data() {
         return {
             apartment: null,
-            map: null
+            map: null,
+            modal: false
         }
     },
     methods: {
@@ -31,6 +34,17 @@ export default {
 
             axios.get(`${IMAGE_MAP_ENDPOINT}&center=${this.apartment.lat},${this.apartment.lon}&zoom=9&width=800&height=500&format=jpg&layer=basic&style=main&language=it-IT`)
                 .then(res => { this.map = res.data })
+        },
+        toggleModal() {
+            this.modal = !this.modal;
+        },
+        deleteApartment() {
+
+            axiosInstance.delete(endpoint + '/' + this.apartment.id).then(res => {
+                console.log('Appartamento eliminato');
+                this.$router.push('/');
+            })
+
         }
     },
     created() {
@@ -49,6 +63,43 @@ export default {
             </div>
         </header>
         <div class="container mt-4">
+            <!-- buttons -->
+            <div class="d-flex justify-content-end align-items-center mb-4">
+                <!-- edit -->
+                <RouterLink :to="{ name: 'apartments.edit', params: { slug: apartment.slug } }"
+                    class="btn btn-secondary mx-4">
+                    Modifica</RouterLink>
+
+                <!-- delete -->
+
+                <!-- modal -->
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Launch demo modal
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                ...
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
             <div class="row row-cols-sm-1 row-cols-md-2">
                 <div class="col" v-if="apartment.thumbnail">
 
@@ -109,4 +160,15 @@ export default {
     </main>
 </template>
 
-<style></style>
+<style use="scss" scoped>
+#modal {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+</style>

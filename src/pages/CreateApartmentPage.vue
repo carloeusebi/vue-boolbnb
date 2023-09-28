@@ -14,22 +14,17 @@ export default {
 	components: { ApartmentForm },
 	methods: {
 		createApartment(apartment) {
-			console.log(apartment);
 			const headers = { headers: { 'Content-Type': 'multipart/form-data' } };
 
 			axiosInstance.post(endpoint, apartment, headers)
-				.then(res => {
-					console.log('Perfetto')
-				})
+				.then(res => { })
 				.catch(err => {
 					const { errors } = err.response.data
 					const errorMessage = {}
 					for (let field in errors) errorMessage[field] = errors[field][0];
 					this.errors = errorMessage
 				})
-				.then(() => {
-					console.log('Chiamata effettuata')
-				});
+				.then(() => { });
 		},
 	},
 };
