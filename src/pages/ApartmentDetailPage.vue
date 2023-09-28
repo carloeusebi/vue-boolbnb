@@ -35,9 +35,6 @@ export default {
             axios.get(`${IMAGE_MAP_ENDPOINT}&center=${this.apartment.lat},${this.apartment.lon}&zoom=9&width=800&height=500&format=jpg&layer=basic&style=main&language=it-IT`)
                 .then(res => { this.map = res.data })
         },
-        toggleModal() {
-            this.modal = !this.modal;
-        },
         deleteApartment() {
 
             axiosInstance.delete(endpoint + '/' + this.apartment.id).then(res => {
@@ -71,11 +68,8 @@ export default {
                     Modifica</RouterLink>
 
                 <!-- delete -->
-
-                <!-- modal -->
-                <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    Launch demo modal
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Cancella
                 </button>
 
                 <!-- Modal -->
@@ -84,15 +78,16 @@ export default {
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminazione appartamento</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                ...
+                                Vuoi davvero eliminare {{ apartment.name }} ?
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
+                                <button @click="deleteApartment" type="button" data-bs-dismiss="modal"
+                                    class="btn btn-danger">Elimna</button>
                             </div>
                         </div>
                     </div>
@@ -159,16 +154,3 @@ export default {
         </div>
     </main>
 </template>
-
-<style use="scss" scoped>
-#modal {
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    z-index: 2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.5);
-}
-</style>
