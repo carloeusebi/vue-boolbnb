@@ -11,6 +11,11 @@ export default {
         }
     },
     components: { ApartmentForm },
+    computed: {
+        isLoadedApartment() {
+            return Object.keys(this.apartment).length !== 0
+        }
+    },
     methods: {
         createApartment(apartment) {
             console.log(apartment);
@@ -41,7 +46,7 @@ export default {
 </script>
 
 <template>
-    <ApartmentForm @form-submit="createApartment" :errors=errors :apartment=apartment />
+    <ApartmentForm @form-submit="createApartment" :errors=errors :apartment=apartment v-if="isLoadedApartment" />
 </template>
 
 <style scoped></style>
