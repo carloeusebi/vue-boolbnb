@@ -2,22 +2,22 @@
 import axios from 'axios';
 import { axiosInstance } from '../assets/axios';
 import ApartmentForm from '../components/ApartmentForm.vue';
+import { loader } from '../stores/_loader';
 export default {
     name: 'CreateApartmentPage',
     data() {
         return {
+            loader,
             errors: {},
             apartment: {}
         }
     },
     components: { ApartmentForm },
-    computed: {
-        isLoadedApartment() {
-            return Object.keys(this.apartment).length !== 0
-        }
-    },
     methods: {
         updateApartment(apartment) {
+
+            loader.setLoader();
+
             const headers = { headers: { 'Content-Type': 'multipart/form-data' } };
 
             apartment.append('_method', 'PUT');
@@ -34,20 +34,24 @@ export default {
                     this.errors = errorMessage
                 })
                 .then(() => {
+                    loader.unsetLoader();
                 });
         },
     },
     created() {
+        loader.setLoader();
         axiosInstance.get(`api/apartments/${this.$route.params.slug}`)
             .then(res => this.apartment = res.data)
             .catch(err => { })
-            .then(() => { })
+            .then(() => {
+                loader.unsetLoader();
+            })
     }
 };
 </script>
 
 <template>
-    <ApartmentForm @form-submit="updateApartment" v-model:errors=errors :apartment=apartment v-if="isLoadedApartment" />
+    <ApartmentForm @form-submit="updateApartment" v-model:errors=errors :apartment=apartment v-if="!loader.isLoading" />
 </template>
 
 <style scoped></style>

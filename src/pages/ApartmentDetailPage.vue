@@ -1,6 +1,9 @@
 <script>
 import axios from 'axios';
 import { axiosInstance } from '../assets/axios';
+import { loader } from '../stores/_loader';
+
+
 const baseUri = 'http://127.0.0.1:8000/api/apartments/';
 const TOM_TOM_KEY = import.meta.env.VITE_TOM_TOM_KEY;
 const endpoint = '/api/apartments'
@@ -27,11 +30,15 @@ export default {
         // apartment
         getApartment() {
             const endpoint = baseUri + this.$route.params.slug;
+            loader.setLoader();
 
             axios.get(endpoint)
                 .then(res => {
                     this.apartment = res.data;
                     this.fetchMap();
+                })
+                .then(() => {
+                    loader.unsetLoader()
                 })
         },
         // map

@@ -1,14 +1,17 @@
 <script>
 import AppHeader from './components/AppHeader.vue';
+import TheLoader from './components/TheLoader.vue';
 
 export default {
-	components: { AppHeader },
+	components: { AppHeader, TheLoader },
 };
 </script>
 
 <template>
 	<!-- header -->
 	<AppHeader />
+
+	<TheLoader />
 
 	<!-- main -->
 	<div>

@@ -1,5 +1,5 @@
 <script>
-
+import { loader } from '../stores/_loader';
 import { axiosInstance } from '../assets/axios'
 
 const apartmentEndpoint = '/api/apartments/';
@@ -23,10 +23,15 @@ export default {
 	},
 
 	created() {
-		axiosInstance.get(apartmentEndpoint).then(res => {
-			const apartments = res.data;
-			this.nonSponsoredApartments = apartments.filter(apartment => !apartment.sponsored);
-		});
+		loader.setLoader();
+		axiosInstance.get(apartmentEndpoint)
+			.then(res => {
+				const apartments = res.data;
+				this.nonSponsoredApartments = apartments.filter(apartment => !apartment.sponsored);
+			})
+			.then(() => {
+				loader.unsetLoader();
+			})
 
 	}
 };

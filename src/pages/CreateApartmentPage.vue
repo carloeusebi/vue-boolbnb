@@ -1,6 +1,8 @@
 <script>
 import { axiosInstance } from '../assets/axios';
 import ApartmentForm from '../components/ApartmentForm.vue';
+import { loader } from '../stores/_loader';
+
 const endpoint = '/api/apartments'
 
 export default {
@@ -13,6 +15,8 @@ export default {
 	components: { ApartmentForm },
 	methods: {
 		createApartment(apartment) {
+
+			loader.setLoader();
 			const headers = { headers: { 'Content-Type': 'multipart/form-data' } };
 
 			axiosInstance.post(endpoint, apartment, headers)
@@ -26,6 +30,8 @@ export default {
 					const errorMessage = {}
 					for (let field in errors) errorMessage[field] = errors[field][0];
 					this.errors = errorMessage
+				}).then(() => {
+					loader.unsetLoader();
 				})
 		},
 	},
