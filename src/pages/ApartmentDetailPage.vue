@@ -11,11 +11,18 @@ export default {
     name: 'ApartmentDetailPage',
     data() {
         return {
-            apartment: null,
+            apartment: {},
             map: null,
             modal: false
         }
     },
+
+    computed: {
+        isLoadedApartment() {
+            return Object.keys(this.apartment).length > 0;
+        }
+    },
+
     methods: {
         // apartment
         getApartment() {
@@ -51,7 +58,7 @@ export default {
 </script>
 
 <template>
-    <main>
+    <main v-if="isLoadedApartment">
         <header>
             <div class="container text-center mt-4">
                 <h2>{{ apartment.name }}</h2>
@@ -143,14 +150,14 @@ export default {
 
                 </div>
                 <!-- map -->
-                <div id="map">
-                    <!-- #######################################
-                         ########## AGGIUNGERE MAPPA ###########
-                         ######################################-->
+                <!-- #######################################
+                    ########## AGGIUNGERE MAPPA ###########
+                    ######################################-->
 
-                    <img :src="`${map}`" :alt="`${apartment.name}`">
-                </div>
             </div>
         </div>
     </main>
 </template>
+    <!-- <div id="map">
+    <img :src="`${map}`" :alt="`${apartment.name}`">
+</div> -->
