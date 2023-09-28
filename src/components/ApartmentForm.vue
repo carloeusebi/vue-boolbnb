@@ -8,7 +8,7 @@ const SEARCH_ENDPOINT = "https://api.tomtom.com/search/2/search";
 const GEOCODE_ENDPOINT = "https://api.tomtom.com/search/2/geocode";
 const TOM_TOM_KEY = import.meta.env.VITE_TOM_TOM_KEY;
 
-const params = { key: TOM_TOM_KEY, language: "it-IT", countrySet: "IT" };
+const params = { key: TOM_TOM_KEY, language: "it-IT", countrySet: "IT", limit: 15 };
 
 const emptyForm = {
 	// TO CHANGE
@@ -102,22 +102,22 @@ export default {
 		 * Get Coordinates using TomTom's api.
 		 */
 		async getCoordinates() {
-			this.fetchingCoordinates = true;
-			// if address is empty, skip
-			if (!this.form.address)
-				return;
-
 			// reset lat and lon
 			this.form.lat = this.form.lon = '';
 
+			// if address is empty, skip			
+			if (!this.form.address)
+				return;
+
 			try {
+				this.fetchingCoordinates = true;
 				const res = await axios.get(`${GEOCODE_ENDPOINT}/${this.form.address}.json`, { params });
 				// reset address errors
 				this.errors.address = ''
 				this.$emit('update:errors', { ...this.errors })
 
 				// if there are no results for the given address add an address error
-				if (res.data.results.length === 0) {
+				if (res.data.results.length === 0 || res.data.results[0].score < 10) {
 					this.$emit('update:errors', { ...this.errors, address: 'Indirizzo non valido.' });
 					return;
 				}
