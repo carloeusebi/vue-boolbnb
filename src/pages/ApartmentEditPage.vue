@@ -17,13 +17,15 @@ export default {
         }
     },
     methods: {
-        createApartment(apartment) {
-            console.log(apartment);
+        updateApartment(apartment) {
             const headers = { headers: { 'Content-Type': 'multipart/form-data' } };
 
-            axiosInstance.put(`api/apartments/${this.$route.params.slug}`, apartment, headers)
+            apartment.append('_method', 'PUT');
+
+            axiosInstance.post(`/api/apartments/${this.apartment.id}`, apartment, headers)
                 .then(res => {
-                    console.log('Chiamata andata a buon fine')
+                    const { slug } = res.data;
+                    this.$router.push({ name: 'apartment-detail', params: { slug } })
                 })
                 .catch(err => {
                     const { errors } = err.response.data
@@ -32,7 +34,6 @@ export default {
                     this.errors = errorMessage
                 })
                 .then(() => {
-                    console.log('Chiamata effettuata')
                 });
         },
     },
@@ -46,7 +47,7 @@ export default {
 </script>
 
 <template>
-    <ApartmentForm @form-submit="createApartment" :errors=errors :apartment=apartment v-if="isLoadedApartment" />
+    <ApartmentForm @form-submit="updateApartment" v-model:errors=errors :apartment=apartment v-if="isLoadedApartment" />
 </template>
 
 <style scoped></style>
