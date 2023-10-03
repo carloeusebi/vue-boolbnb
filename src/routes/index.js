@@ -4,7 +4,6 @@ import HomePage from '../pages/HomePage.vue';
 import ApartmentDetailPage from '../pages/ApartmentDetailPage.vue';
 import CreateApartmentPage from '../pages/CreateApartmentPage.vue';
 import ApartmentEditPage from '../pages/ApartmentEditPage.vue';
-
 const router = createRouter({
 	history: createWebHistory(),
 	routes: [
