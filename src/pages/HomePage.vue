@@ -1,9 +1,9 @@
 <script>
 import { loader } from '../stores/_loader';
 import { axiosInstance } from '../assets/axios'
+import ApartmentCard from '../components/ApartmentCard.vue';
 
 const apartmentEndpoint = '/api/apartments/';
-const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 export default {
 	name: 'HomePage',
@@ -15,12 +15,7 @@ export default {
 			],
 		};
 	},
-
-	methods: {
-		scrUrl(url) {
-			return url ? `${backendUrl}/storage/${url}` : 'placeholder.png';
-		}
-	},
+	components: { ApartmentCard },
 
 	created() {
 		loader.setLoader();
@@ -42,11 +37,6 @@ export default {
 
 		<h1 class="text-center fw-bold mt-4">temporary page</h1>
 		<hr>
-		<div class="d-flex justify-content-center align-items-center">
-			<RouterLink :to="{ name: 'apartments.create' }">Create Apartment</RouterLink>
-		</div>
-		<hr>
-
 
 		<h2 class="text-center text-secondary  pt-3 pb-3">Apartments:</h2>
 		<!-- CARDS: -->
@@ -54,18 +44,8 @@ export default {
 
 			<div class="cards_deck row justify-content-center gap-5 m-0 p-0">
 				<div class="card_container p-0" v-for="apartment in nonSponsoredApartments" :key="apartment.id">
-					<div class="col-12 col-md-10 col-lg-8">
-						<div style="width: 300px;" class="card">
-							<img :src="scrUrl(apartment.thumbnail)" class="img-fluid" :alt="apartment.name">
-							<div class="card-body">
-								<h5 class="card-title">{{ apartment.name }}</h5>
-								<div class="d-flex justify-content-between align-items-center">
-									<RouterLink :to="{ name: 'apartment-detail', params: { slug: apartment.slug } }">
-										View...</RouterLink>
-								</div>
-							</div>
-						</div>
-					</div>
+
+					<ApartmentCard :apartment="apartment" />
 				</div>
 			</div>
 
