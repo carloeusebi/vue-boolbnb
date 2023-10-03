@@ -2,6 +2,7 @@
 import { loader } from '../stores/_loader';
 import { axiosInstance } from '../assets/axios'
 import ApartmentCard from '../components/ApartmentCard.vue';
+import AppMap from '../components/AppMap.vue'
 
 const apartmentEndpoint = '/api/apartments/';
 
@@ -10,18 +11,18 @@ export default {
 
 	data() {
 		return {
-			nonSponsoredApartments: [
-
-			],
+			nonSponsoredApartments: [],
+			apartments: [],
 		};
 	},
-	components: { ApartmentCard },
+	components: { ApartmentCard, AppMap },
 
 	created() {
 		loader.setLoader();
 		axiosInstance.get(apartmentEndpoint)
 			.then(res => {
 				const apartments = res.data;
+				this.apartments = apartments;
 				this.nonSponsoredApartments = apartments.filter(apartment => !apartment.sponsored);
 			})
 			.then(() => {
@@ -39,7 +40,11 @@ export default {
 		<hr>
 
 		<h2 class="text-center text-secondary  pt-3 pb-3">Apartments:</h2>
+
 		<!-- CARDS: -->
+
+		<AppMap v-if="apartments.length > 0" :apartments="apartments" />
+
 		<div class="d-flex justify-content-center rounded-1 pt-4 pb-5 p-0 m-0">
 
 			<div class="cards_deck row justify-content-center gap-5 m-0 p-0">
@@ -50,8 +55,6 @@ export default {
 			</div>
 
 		</div>
-
-
 	</div>
 </template>
 
