@@ -1,8 +1,13 @@
 <script setup>
 import { onMounted, reactive, ref } from 'vue';
+import * as turf from '@turf/turf'
+
 const key = import.meta.env.VITE_TOM_TOM_KEY;
 
-const props = defineProps({ apartments: Array })
+const props = defineProps({
+    apartments: Array,
+    circle: Object
+})
 const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000';
 
 const mapRef = ref(null);
@@ -26,6 +31,29 @@ const insertLocs = map => {
     })
 }
 
+const addCircle = map => {
+
+    const center = turf.point([12.51133, 41.89193])
+    const radius = 150
+    const options = { steps: 80, units: 'kilometers' }
+
+    const circle = turf.circle(center, radius, options)
+
+    map.addSource('circleData', {
+        type: 'geojson', data: circle
+    })
+
+    map.addLayer({
+        id: 'circle-fill',
+        type: 'fill',
+        source: 'circleData',
+        paint: {
+            "fill-color": "blue",
+            "fill-opacity": 0.1,
+        },
+    })
+}
+
 onMounted(() => {
     const tt = window.tt;
     const focus = { lat: 41.89193, lng: 12.51133 }
@@ -41,6 +69,13 @@ onMounted(() => {
     map.addControl(new tt.NavigationControl());
 
     insertLocs(map);
+
+    if (props.circle) {
+        setTimeout(() => {
+            addCircle(map);
+        }, 1000)
+    }
+
 
     window.map = map;
 })
