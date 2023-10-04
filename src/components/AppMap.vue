@@ -1,24 +1,39 @@
 <script setup>
-import { onMounted, reactive, ref } from 'vue';
+import { onMounted, reactive, ref, watch } from 'vue';
 import * as turf from '@turf/turf'
 
 const key = import.meta.env.VITE_TOM_TOM_KEY;
 
+const rome = { lat: 41.89193, lng: 12.51133 };
+
 const props = defineProps({
     apartments: Array,
-    circle: Object
+    circle: Object,
+    coordinates: Object,
+    radius: {
+        type: Number,
+        default: 100
+    },
 })
 const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000';
 
 const mapRef = ref(null);
-const locations = props.apartments;
 
-const state = reactive({ locations })
+watch(() => props.coordinates,
+    newValue => {
+        const { lat, lon } = newValue;
+        addCircle(map, [lon, lat], props.radius);
+    })
 
-const insertLocs = map => {
+watch(() => props.apartments,
+    newValue => {
+        insertLocs(map, newValue)
+    })
+
+const insertLocs = (map, locations) => {
     const tomtom = window.tt;
 
-    state.locations.forEach(location => {
+    locations.forEach(location => {
 
         const img = `<a href="apartments/${location.slug}">
                         <img width="50" src=${backendUrl}/storage/${location.thumbnail}>
@@ -31,13 +46,26 @@ const insertLocs = map => {
     })
 }
 
-const addCircle = map => {
+const addCircle = (map, coordinates, radius) => {
 
-    const center = turf.point([12.51133, 41.89193])
-    const radius = 150
+    const center = turf.point(coordinates)
     const options = { steps: 80, units: 'kilometers' }
 
     const circle = turf.circle(center, radius, options)
+
+    if (coordinates[0] === '' && coordinates[1] === '')
+        coordinates = rome;
+
+    map.setCenter(coordinates);
+
+    const layer = map.getLayer('circle-fill');
+    if (layer) {
+        map.removeLayer('circle-fill')
+    }
+    const source = map.getSource('circleData');
+    if (source) {
+        map.removeSource('circleData');
+    }
 
     map.addSource('circleData', {
         type: 'geojson', data: circle
@@ -56,7 +84,7 @@ const addCircle = map => {
 
 onMounted(() => {
     const tt = window.tt;
-    const focus = { lat: 41.89193, lng: 12.51133 }
+    const focus = rome
 
     const map = tt.map({
         key,
@@ -68,7 +96,7 @@ onMounted(() => {
     map.addControl(new tt.FullscreenControl());
     map.addControl(new tt.NavigationControl());
 
-    insertLocs(map);
+    insertLocs(map, props.apartments);
 
     if (props.circle) {
         setTimeout(() => {
