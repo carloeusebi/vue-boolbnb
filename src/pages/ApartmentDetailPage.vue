@@ -2,6 +2,7 @@
 import axios from 'axios';
 import { axiosInstance } from '../assets/axios';
 import { loader } from '../stores/_loader';
+import ApartmentServiceModal from '../components/ApartmentServiceModal.vue';
 
 
 const baseUri = 'http://127.0.0.1:8000/api/apartments/';
@@ -19,6 +20,7 @@ export default {
             modal: false
         }
     },
+    components: { ApartmentServiceModal },
 
     computed: {
         isLoadedApartment() {
@@ -27,6 +29,7 @@ export default {
     },
 
     methods: {
+
         // apartment
         getApartment() {
             const endpoint = baseUri + this.$route.params.slug;
@@ -74,43 +77,8 @@ export default {
             </div>
         </header>
         <div class="container mt-4">
-            <!-- buttons -->
-            <div class="d-flex justify-content-end align-items-center mb-4">
-                <!-- edit -->
-                <RouterLink :to="{ name: 'apartments.edit', params: { slug: apartment.slug } }"
-                    class="btn btn-secondary mx-4">
-                    Modifica</RouterLink>
-
-                <!-- delete -->
-                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    Cancella
-                </button>
-
-                <!-- Modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminazione appartamento</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                Vuoi davvero eliminare {{ apartment.name }} ?
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
-                                <button @click="deleteApartment" type="button" data-bs-dismiss="modal"
-                                    class="btn btn-danger">Elimna</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="row row-cols-sm-1 row-cols-md-2">
-                <div class="col" v-if="apartment.thumbnail">
+            <div class="row justify-content-between">
+                <div class="col-12" v-if="apartment.thumbnail">
 
                     <!-- image -->
                     <figure>
@@ -118,53 +86,122 @@ export default {
                             class="rounded img-fluid">
                     </figure>
                 </div>
-                <div class="col">
-
+                <div class="col-6">
                     <!-- apartment' info -->
-                    <div>
-                        <h4 class="text-secondary text-uppercase">Descrizione appartamento :</h4>
+                    <div class="my-5">
+                        <h4 class="text-secondary text-uppercase">Informazioni su questo spazio</h4>
                         <p v-if="apartment.description">{{ apartment.description }}</p>
                         <p v-else> -- </p>
-
-                        <!-- features -->
-                        <h4 class="text-secondary text-uppercase pt-3 pb-2">Caratteristiche:</h4>
-                        <!-- rooms -->
+                    </div>
+                    <hr>
+                    <!-- features -->
+                    <h4 class="text-secondary text-uppercase pt-3 pb-2">Cosa troverai</h4>
+                    <!-- rooms -->
+                    <div class="row row-cols-2">
                         <div class="d-flex align-items-baseline">
-                            <span>Stanze : </span>
-                            <h6 class="ps-4" v-if="apartment.rooms">{{ apartment.rooms }}</h6>
+                            <span><font-awesome-icon :icon="['fas', 'door-closed']" /> Stanze</span>
+                            <h6 class="ps-2 fw-bold" v-if="apartment.rooms">{{ apartment.rooms }}</h6>
                             <span class="ps-4" v-else> -- </span>
                         </div>
                         <!-- bathrooms -->
                         <div class="d-flex align-items-baseline">
-                            <span>Bagni : </span>
-                            <h6 class="ps-4" v-if="apartment.bathrooms">{{ apartment.bathrooms }}</h6>
+                            <span><font-awesome-icon :icon="['fas', 'shower']" /> Bagni</span>
+                            <h6 class="ps-2 fw-bold" v-if="apartment.bathrooms">{{ apartment.bathrooms }}</h6>
                             <span class="ps-4" v-else> -- </span>
                         </div>
                         <!-- bedrooms -->
                         <div class="d-flex align-items-baseline">
-                            <span>Stanze da letto : </span>
-                            <h6 class="ps-4" v-if="apartment.bedrooms">{{ apartment.bedrooms }}</h6>
+                            <span><font-awesome-icon :icon="['fas', 'bed']" /> Stanze da letto</span>
+                            <h6 class="ps-2 fw-bold" v-if="apartment.bedrooms">{{ apartment.bedrooms }}</h6>
                             <span class="ps-4" v-else> -- </span>
                         </div>
                         <!-- square_meters -->
                         <div class="d-flex align-items-baseline">
-                            <span>Metri Quadri : </span>
-                            <h6 class="ps-4" v-if="apartment.square_meters">{{ apartment.square_meters }} m&sup2;</h6>
+                            <span><font-awesome-icon :icon="['fas', 'house']" /> Metri Quadri</span>
+                            <h6 class="ps-2 fw-bold" v-if="apartment.square_meters">{{ apartment.square_meters }} m&sup2;
+                            </h6>
                             <span class="ps-4" v-else> -- </span>
                         </div>
-
+                        <!-- wi-fi -->
+                        <div class="d-flex align-items-baseline">
+                            <p><font-awesome-icon :icon="['fas', 'wifi']" /> Wi-Fi</p>
+                        </div>
+                        <!-- piscina -->
+                        <div class="d-flex align-items-baseline">
+                            <p><font-awesome-icon :icon="['fas', 'person-swimming']" /> Piscina</p>
+                        </div>
+                        <!-- button che mostra tutti i servizi -->
+                        <button class="btn border rounded border-black service-button mt-3" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop">Mostra
+                            tutti i
+                            servizi</button>
+                        <ApartmentServiceModal :apartment="apartment" />
                     </div>
-
+                    <hr>
                 </div>
-                <!-- map -->
-                <!-- #######################################
+                <div class="col-4 my-5">
+                    <div class="card border rounded border-secondary-subtle">
+                        <div class="card-body d-flex align-items-center flex-column">
+                            <h4 class="card-title align-self-start">Contatta il proprietario</h4>
+                            <h6 class="card-subtitle mb-2 text-body-secondary py-2 align-self-start">
+                                <span class="fw-semibold">{{ apartment.name }}</span>
+                                - {{ apartment.address }}
+                            </h6>
+                            <form action="#" class="row px-3 g-2">
+                                <textarea name="" id="" cols="40" rows="4" class="border rounded col"
+                                    placeholder="Messaggio*"></textarea>
+                                <input type="text" name="" id="" placeholder="Nome*" class="border rounded">
+                                <input type="text" name="" id="" placeholder="Email*" class="border rounded">
+                                <p class="text-end">*campi obbligatori</p>
+                                <div>
+                                    <button class="btn btn-primary"><font-awesome-icon :icon="['fas', 'envelope']" />
+                                        Invia
+                                        Email</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+            <!-- map -->
+            <!-- #######################################
                     ########## AGGIUNGERE MAPPA ###########
                     ######################################-->
 
-            </div>
         </div>
+
     </main>
 </template>
     <!-- <div id="map">
     <img :src="`${map}`" :alt="`${apartment.name}`">
 </div> -->
+
+
+<style scoped lang="scss">
+.card {
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.25);
+}
+
+.service-button {
+    width: 185px;
+    padding: 12px;
+    font-weight: 600;
+}
+
+
+
+textarea {
+    resize: none;
+}
+
+form {
+    p {
+        font-size: 11px;
+        color: gray;
+    }
+}
+</style>
