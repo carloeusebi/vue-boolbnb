@@ -34,10 +34,30 @@ export default {
 </script>
 
 <template>
+	<div class="jumbotron p-5 my-4 main-bg-color rounded-3">
+		<div class="container py-5">
+			<div class="mb-4">
+
+				<h1 class="display-5 fw-bold text-center second-color">
+					BoolBnB
+				</h1>
+
+				<h6 class="text-center pb-4 main-color">IL TUO APPARTAMENTO TI ASPETTA</h6>
+			</div>
+			<div class="mt-4">
+				<p class="text-center fs-3 main-color">
+					Cerca l'Appartamento giusto per te filtrando i risultati di ricerca per numero di bagni,
+					la presenza di piscina, sauna, portineria e tanti altri servizi. <br>
+					Puoi inoltre decidere quanti ambienti preferisci avere per il tuo Appartamento; ad esempio, bilocali,
+					trilocali, quadrilocali.
+
+				</p>
+			</div>
+		</div>
+	</div>
+	<hr>
 	<div class="container mx-auto p-0 pb-5">
 
-		<h1 class="text-center fw-bold mt-4">temporary page</h1>
-		<hr>
 
 		<h2 class="text-center text-secondary  pt-3 pb-3">Apartments:</h2>
 
@@ -58,7 +78,11 @@ export default {
 	</div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
+@use '../assets/Scss/style.scss' as *;
+
+
+
 .cards_deck {
 	max-width: 1005px;
 }
