@@ -17,7 +17,7 @@ export default {
         return {
             form: {
                 address: '',
-                distance: 100,
+                distance: 20,
                 selectedServices: [],
                 lat: '',
                 lon: '',
@@ -96,7 +96,9 @@ export default {
         },
 
         fetchApartments() {
-            axiosInstance.get('api/apartments').then(res => { this.apartments = res.data });
+            const params = { ...this.form }
+            this.apartments = []
+            axiosInstance.get('api/apartments', { params }).then(res => { this.apartments = [...res.data] });
         }
     },
     mounted() {

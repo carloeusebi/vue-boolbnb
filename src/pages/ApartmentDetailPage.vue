@@ -1,13 +1,12 @@
 <script>
-import axios from 'axios';
 import { axiosInstance } from '../assets/axios';
 import { loader } from '../stores/_loader';
 import ApartmentServiceModal from '../components/ApartmentServiceModal.vue';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 
-const baseUri = 'http://127.0.0.1:8000/api/apartments/';
+const baseUri = '/api/apartments/';
 const TOM_TOM_KEY = import.meta.env.VITE_TOM_TOM_KEY;
-const endpoint = '/api/apartments'
 
 
 
@@ -20,7 +19,7 @@ export default {
             modal: false
         }
     },
-    components: { ApartmentServiceModal },
+    components: { ApartmentServiceModal, FontAwesomeIcon },
 
     computed: {
         isLoadedApartment() {
@@ -32,34 +31,20 @@ export default {
 
         // apartment
         getApartment() {
-            const endpoint = baseUri + this.$route.params.slug;
+            const endpoint = `api/apartments/${this.$route.params.slug}`;
             loader.setLoader();
 
-            axios.get(endpoint)
+            axiosInstance.get(endpoint)
                 .then(res => {
                     this.apartment = res.data;
-                    this.fetchMap();
+                })
+                .catch(err => {
+                    console.error(err);
                 })
                 .then(() => {
                     loader.unsetLoader()
                 })
         },
-        // map
-        fetchMap() {
-
-            const IMAGE_MAP_ENDPOINT = `http://api.tomtom.com/map/1/staticimage?key=${TOM_TOM_KEY}`;
-
-            axios.get(`${IMAGE_MAP_ENDPOINT}&center=${this.apartment.lat},${this.apartment.lon}&zoom=9&width=800&height=500&format=jpg&layer=basic&style=main&language=it-IT`)
-                .then(res => { this.map = res.data })
-        },
-        deleteApartment() {
-
-            axiosInstance.delete(endpoint + '/' + this.apartment.id).then(res => {
-                console.log('Appartamento eliminato');
-                this.$router.push('/');
-            })
-
-        }
     },
     created() {
         this.getApartment();
@@ -123,20 +108,29 @@ export default {
                             <span class="ps-4" v-else> -- </span>
                         </div>
                         <!-- wi-fi -->
-                        <div class="d-flex align-items-baseline">
+                        <!-- <div class="d-flex align-items-baseline">
                             <p><font-awesome-icon :icon="['fas', 'wifi']" /> Wi-Fi</p>
-                        </div>
+                        </div> -->
                         <!-- piscina -->
-                        <div class="d-flex align-items-baseline">
+                        <!-- <div class="d-flex align-items-baseline">
                             <p><font-awesome-icon :icon="['fas', 'person-swimming']" /> Piscina</p>
-                        </div>
-                        <!-- button che mostra tutti i servizi -->
-                        <button class="btn border rounded border-black service-button mt-3" data-bs-toggle="modal"
-                            data-bs-target="#staticBackdrop">Mostra
-                            tutti i
-                            servizi</button>
-                        <ApartmentServiceModal :apartment="apartment" />
+                        </div> -->
                     </div>
+                    <ul class="list-unstyled d-flex flex-wrap my-3">
+                        <li v-for="service in apartment.services" :key="service.id"
+                            class="d-flex justify-content-start align-items-baseline me-3">
+                            <FontAwesomeIcon :icon="['fas', service.icon]" />
+                            <p class="ms-2">
+                                {{ service.name }}
+                            </p>
+                        </li>
+                    </ul>
+                    <!-- button che mostra tutti i servizi -->
+                    <!-- <button class="btn border rounded border-black service-button mt-3" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop">
+                            Mostra tutti i servizi
+                        </button> -->
+                    <!-- <ApartmentServiceModal :apartment="apartment" /> -->
                     <hr>
                 </div>
                 <div class="col-4 my-5">

@@ -1,9 +1,33 @@
 import { createApp } from 'vue';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faShower,faBed,faHouse, faDoorClosed, faEnvelope,faWifi, faPersonSwimming} from '@fortawesome/free-solid-svg-icons'
-library.add(faShower,faBed, faHouse,faDoorClosed, faEnvelope, faWifi,faPersonSwimming)
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import {
+  faShower,
+  faBed,
+  faHouse,
+  faDoorClosed,
+  faEnvelope,
+  faWifi,
+  faPersonSwimming,
+  faSquareParking,
+  faBellConcierge,
+  faHotTubPerson,
+  faWater,
+} from '@fortawesome/free-solid-svg-icons';
+library.add(
+  faShower,
+  faBed,
+  faHouse,
+  faDoorClosed,
+  faEnvelope,
+  faWifi,
+  faPersonSwimming,
+  faSquareParking,
+  faBellConcierge,
+  faHotTubPerson,
+  faWater
+);
 import 'bootstrap';
 import App from './App.vue';
 import { router } from './routes';
