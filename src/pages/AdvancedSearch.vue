@@ -10,21 +10,22 @@ const TOM_TOM_KEY = import.meta.env.VITE_TOM_TOM_KEY;
 
 const params = { key: TOM_TOM_KEY, language: "it-IT", countrySet: "IT", limit: 15 };
 
+const form = {
+    address: '',
+    distance: '20',
+    selectedServices: [],
+    lat: '',
+    lon: '',
+    rooms: 1,
+    bedrooms: 1
+}
 
 export default {
     name: 'AdvancedSearch',
     components: { ApartmentCard, AppMap, FontAwesomeIcon },
     data() {
         return {
-            form: {
-                address: '',
-                distance: 20,
-                selectedServices: [],
-                lat: '',
-                lon: '',
-                rooms: 1,
-                bedrooms: 1
-            },
+            form: { ...form },
             services: [],
             apartments: [],
             addressTimeout: null,
@@ -95,6 +96,11 @@ export default {
 
         async handleFormSubmission() {
             await this.getCoordinates();
+            const query = {};
+            for (let field in this.form) {
+                query[field] = this.form[field]
+            }
+            this.$router.push({ query })
             this.fetchApartments();
         },
 
@@ -102,10 +108,23 @@ export default {
             const params = { ...this.form }
             this.apartments = []
             axiosInstance.get('api/apartments', { params }).then(res => { this.apartments = [...res.data] });
+        },
+
+        emptyForm() {
+            this.form = { ...form }
+            this.$router.replace('/advanced-search')
+            console.log(this.form);
         }
     },
     mounted() {
         axiosInstance.get('api/services').then(res => { this.services = res.data })
+
+        const query = this.$route.query;
+
+        for (const param in query) {
+            this.form[param] = query[param];
+        }
+        this.fetchApartments();
     }
 }
 </script>
@@ -156,9 +175,11 @@ export default {
                 </div>
                 <div>
                     <button class="btn btn-primary">Cerca</button>
+                    <button type="button" class="btn btn-secondary ms-2" @click="emptyForm">Svuota</button>
                 </div>
             </form>
 
+            <!-- MAP -->
             <div class="col-12 col-md-4">
                 <AppMap :apartments="apartments" :coordinates="{ lat: form.lat, lon: form.lon }" :radius="form.distance" />
             </div>
