@@ -3,6 +3,7 @@ import { axiosInstance } from '../assets/axios';
 import { loader } from '../stores/_loader';
 import ApartmentServiceModal from '../components/ApartmentServiceModal.vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import AppMap from '../components/AppMap.vue';
 
 
 const baseUri = '/api/apartments/';
@@ -19,12 +20,12 @@ export default {
             modal: false
         }
     },
-    components: { ApartmentServiceModal, FontAwesomeIcon },
+    components: { ApartmentServiceModal, FontAwesomeIcon, AppMap },
 
     computed: {
         isLoadedApartment() {
             return Object.keys(this.apartment).length > 0;
-        }
+        },
     },
 
     methods: {
@@ -63,13 +64,17 @@ export default {
         </header>
         <div class="container mt-4">
             <div class="row justify-content-between">
-                <div class="col-12" v-if="apartment.thumbnail">
+                <div class="col-12 col-md-7" v-if="apartment.thumbnail">
 
                     <!-- image -->
                     <figure>
                         <img :src="`http://localhost:8000/storage/${apartment.thumbnail}`" :alt="`${apartment.name}`"
                             class="rounded img-fluid">
                     </figure>
+                </div>
+                <div class="col-12 col-md-5">
+                    <AppMap v-if="isLoadedApartment" :apartments="[apartment]" :zoom="10"
+                        :coordinates="{ lat: apartment.lat, lng: apartment.lon }" />
                 </div>
                 <div class="col-6">
                     <!-- apartment' info -->

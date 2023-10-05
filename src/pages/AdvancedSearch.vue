@@ -133,11 +133,11 @@ export default {
                 <div class="d-flex mb-3 gap-3">
                     <div>
                         <label for="rooms">Stanze</label>
-                        <input id="rooms" class="form-control" v-model="form.rooms" />
+                        <input type="number" id="rooms" class="form-control" v-model="form.rooms" />
                     </div>
                     <div>
                         <label for="bedrooms">Camere da letto</label>
-                        <input id="bedrooms" class="form-control" v-model="form.bedrooms" />
+                        <input type="number" id="bedrooms" class="form-control" v-model="form.bedrooms" />
                     </div>
                 </div>
                 <!-- SERVICES -->

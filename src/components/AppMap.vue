@@ -13,8 +13,13 @@ const props = defineProps({
     coordinates: Object,
     radius: {
         type: Number,
-        default: 100
+        default: 20
     },
+    zoom: {
+        type: Number,
+        default: 4.5
+    },
+    focus: Array
 })
 const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000';
 
@@ -90,13 +95,13 @@ const addCircle = (map, coordinates, radius) => {
 
 onMounted(() => {
     const tt = window.tt;
-    const focus = rome
+    const focus = props.coordinates || rome
 
     const map = tt.map({
         key,
         container: mapRef.value,
         center: focus,
-        zoom: 4.5,
+        zoom: props.zoom,
     })
 
     map.addControl(new tt.FullscreenControl());
