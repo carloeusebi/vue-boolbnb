@@ -111,7 +111,7 @@ const addCircle = (map, coordinates, radius) => {
 
 onMounted(() => {
     const tt = window.tt;
-    const focus = rome;
+    const focus = props.coordinates || rome;
 
     const map = tt.map({
         key,
