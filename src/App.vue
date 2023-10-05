@@ -19,4 +19,6 @@ export default {
 	</div>
 </template>
 
-<style scoped></style>
+<style lang="scss">
+@use './assets/Scss/style.scss'
+</style>
