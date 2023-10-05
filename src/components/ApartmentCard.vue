@@ -9,7 +9,7 @@ export default {
             return this.apartment.thumbnail ? `${backendUrl}/storage/${this.apartment.thumbnail}` : 'placeholder.png';
         },
         distance() {
-            return this.apartment.distance ? 'Distanza: ' + this.apartment.distance.toFixed(2) + 'km' : '';
+            return this.apartment.distance || this.apartment.distance === 0 ? 'Distanza: ' + this.apartment.distance.toFixed(2) + 'km' : '';
         }
     }
 }
@@ -23,14 +23,15 @@ export default {
 
             <div class="card">
                 <img :src="scrUrl" class="img-fluid" :alt="apartment.name">
-                <div class="img_cover text-white">
-                    <h2 class="card-title">{{ apartment.name }}</h2>
-                    <h5>{{ apartment.address }}</h5>
-                    <div class="text-light">{{ distance }}</div>
-                </div>
             </div>
-
         </RouterLink>
+
+        <div class="card_bio">
+            <h3 class="card-title">{{ apartment.name }}</h3>
+            <p>{{ apartment.address }}</p>
+            <div>{{ distance }}</div>
+        </div>
+
 
     </div>
 
