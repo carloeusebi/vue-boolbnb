@@ -1,8 +1,11 @@
 <script>
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+
 export default {
     props: {
         apartment: {}
     },
+    components: { FontAwesomeIcon }
 }   
 </script>   
 
@@ -20,48 +23,14 @@ export default {
                 </div>
                 <div class="modal-body">
                     <h4>Cosa troverai</h4>
-                    <div class="row row-cols-2">
-
-                        <!-- Stanze -->
-                        <div class="d-flex align-items-baseline">
+                    <div class="row  justify-content-between">
+                        <div v-for="service in apartment.services" class="d-flex align-items-baseline my-2 col-5">
                             <div class="d-flex align-items-baseline">
-                                <span><font-awesome-icon :icon="['fas', 'door-closed']" /> Stanze</span>
-                                <h6 class="ps-2 fw-bold" v-if="apartment.rooms">{{ apartment.rooms }}</h6>
-                                <span class="ps-4" v-else> -- </span>
+                                <FontAwesomeIcon :icon="['fas', service.icon]" />
+                                <p class="ms-2">
+                                    {{ service.name }}
+                                </p>
                             </div>
-                        </div>
-
-                        <!-- Bagni -->
-                        <div class="d-flex align-items-baseline">
-                            <span><font-awesome-icon :icon="['fas', 'shower']" /> Bagni</span>
-                            <h6 class="ps-2 fw-bold" v-if="apartment.bathrooms">{{ apartment.bathrooms }}</h6>
-                            <span class="ps-4" v-else> -- </span>
-                        </div>
-
-                        <!-- Stanze da letto -->
-                        <div class="d-flex align-items-baseline">
-                            <span><font-awesome-icon :icon="['fas', 'bed']" /> Stanze da letto</span>
-                            <h6 class="ps-2 fw-bold" v-if="apartment.bedrooms">{{ apartment.bedrooms }}</h6>
-                            <span class="ps-4" v-else> -- </span>
-                        </div>
-
-                        <!-- Metri quadrati -->
-                        <div class="d-flex align-items-baseline">
-                            <span><font-awesome-icon :icon="['fas', 'house']" /> Metri Quadri</span>
-                            <h6 class="ps-2 fw-bold" v-if="apartment.square_meters">{{ apartment.square_meters }} m&sup2;
-                            </h6>
-                            <span class="ps-4" v-else> -- </span>
-                        </div>
-
-
-                        <!-- Wi-fi -->
-                        <div class="d-flex align-items-baseline">
-                            <p><font-awesome-icon :icon="['fas', 'wifi']" /> Wi-Fi</p>
-                        </div>
-
-                        <!-- Piscina -->
-                        <div class="d-flex align-items-baseline">
-                            <p><font-awesome-icon :icon="['fas', 'person-swimming']" /> Piscina</p>
                         </div>
                     </div>
                     <div>
@@ -69,8 +38,7 @@ export default {
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Understood</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
                 </div>
             </div>
         </div>
@@ -86,6 +54,7 @@ export default {
 <style scoped lang="scss">
 h4 {
     font-weight: 600;
+    margin-bottom: 1.5rem;
 }
 
 h6 {

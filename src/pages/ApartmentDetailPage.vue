@@ -113,16 +113,27 @@ export default {
                             </h6>
                             <span class="ps-4" v-else> -- </span>
                         </div>
-                        <!-- wi-fi -->
-                        <!-- <div class="d-flex align-items-baseline">
-                            <p><font-awesome-icon :icon="['fas', 'wifi']" /> Wi-Fi</p>
-                        </div> -->
-                        <!-- piscina -->
-                        <!-- <div class="d-flex align-items-baseline">
+                        <!-- first service -->
+                        <div class="d-flex align-items-baseline">
+                            <FontAwesomeIcon :icon="['fas', apartment.services[0].icon]" />
+                            <p class="ms-2">
+                                {{ apartment.services[0].name }}
+                            </p>
+                        </div>
+                        <!-- second service -->
+                        <div class="d-flex align-items-baseline">
+                            <FontAwesomeIcon :icon="['fas', apartment.services[1].icon]" />
+                            <p class="ms-2">
+                                {{ apartment.services[1].name }}
+                            </p>
+                        </div>
+                    </div>
+
+
+                    <!-- <div class="d-flex align-items-baseline">
                             <p><font-awesome-icon :icon="['fas', 'person-swimming']" /> Piscina</p>
                         </div> -->
-                    </div>
-                    <ul class="list-unstyled d-flex flex-wrap my-3">
+                    <!-- <ul class="list-unstyled d-flex flex-wrap my-3">
                         <li v-for="service in apartment.services" :key="service.id"
                             class="d-flex justify-content-start align-items-baseline me-3">
                             <FontAwesomeIcon :icon="['fas', service.icon]" />
@@ -130,13 +141,15 @@ export default {
                                 {{ service.name }}
                             </p>
                         </li>
-                    </ul>
+                    </ul> -->
+
+
                     <!-- button che mostra tutti i servizi -->
-                    <!-- <button class="btn border rounded border-black service-button mt-3" data-bs-toggle="modal"
-                            data-bs-target="#staticBackdrop">
-                            Mostra tutti i servizi
-                        </button> -->
-                    <!-- <ApartmentServiceModal :apartment="apartment" /> -->
+                    <button class="btn border rounded border-black service-button mt-3" data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop">
+                        Mostra tutti i servizi
+                    </button>
+                    <ApartmentServiceModal :apartment="apartment" />
                     <hr>
                 </div>
                 <div class="col-4 my-5">
