@@ -7,6 +7,9 @@ export default {
     computed: {
         scrUrl() {
             return this.apartment.thumbnail ? `${backendUrl}/storage/${this.apartment.thumbnail}` : 'placeholder.png';
+        },
+        distance() {
+            return this.apartment.distance ? 'Distanza: ' + this.apartment.distance.toFixed(2) + 'km' : '';
         }
     }
 }
@@ -19,6 +22,8 @@ export default {
             <img :src="scrUrl" class="img-fluid" :alt="apartment.name">
             <div class="card-body">
                 <h5 class="card-title">{{ apartment.name }}</h5>
+                <div>{{ apartment.address }}</div>
+                <div class="text-secondary">{{ distance }}</div>
                 <div class="d-flex justify-content-between align-items-center">
                     <RouterLink :to="{ name: 'apartment-detail', params: { slug: apartment.slug } }">
                         View...</RouterLink>

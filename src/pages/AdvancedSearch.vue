@@ -49,7 +49,6 @@ export default {
         emptyForm() {
             this.form = { ...form }
             this.$router.replace('/advanced-search')
-            console.log(this.form);
         }
     },
     mounted() {

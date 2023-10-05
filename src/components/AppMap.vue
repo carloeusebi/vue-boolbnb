@@ -28,6 +28,7 @@ let timeout = null;
 watch(() => props.coordinates,
     newValue => {
         const { lat, lon } = newValue;
+        if (!lat || !lon) return;
         clearTimeout(timeout);
         timeout = setTimeout(() => {
             addCircle(map, [lon, lat], props.radius);
@@ -40,7 +41,6 @@ watch(() => props.apartments,
     })
 
 const calculateProperZoom = (radius) => {
-    console.log(radius);
     const slope = -3 / 130;
     const yIntercept = 120 / 13;
 
@@ -80,10 +80,8 @@ const addCircle = (map, coordinates, radius) => {
     const circle = turf.circle(center, radius, options)
 
     const zoom = calculateProperZoom(radius)
-    console.log(zoom);
 
     map.setZoom(zoom);
-
 
     map.setCenter(coordinates);
 
@@ -112,11 +110,8 @@ const addCircle = (map, coordinates, radius) => {
 }
 
 onMounted(() => {
-    let { coordinates } = props;
-
-
     const tt = window.tt;
-    const focus = coordinates || rome;
+    const focus = rome;
 
     const map = tt.map({
         key,

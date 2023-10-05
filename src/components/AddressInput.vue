@@ -57,7 +57,6 @@ export default {
             if (!address) return { lat: '', lon: '' }
 
             try {
-                this.fetchingCoordinates = true;
                 const res = await axiosInstance.get(`${GEOCODE_ENDPOINT}/${address}.json`, { params });
 
                 if (res.data.results.length < 1) {
@@ -70,8 +69,6 @@ export default {
 
             } catch (err) {
                 console.error(err);
-            } finally {
-                this.fetchingCoordinates = false;
             }
         },
     }

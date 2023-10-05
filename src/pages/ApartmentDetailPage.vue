@@ -114,26 +114,26 @@ export default {
                             <span class="ps-4" v-else> -- </span>
                         </div>
                         <!-- first service -->
-                        <div class="d-flex align-items-baseline">
+                        <!-- <div class="d-flex align-items-baseline">
                             <FontAwesomeIcon :icon="['fas', apartment.services[0].icon]" />
                             <p class="ms-2">
                                 {{ apartment.services[0].name }}
                             </p>
-                        </div>
+                        </div> -->
                         <!-- second service -->
-                        <div class="d-flex align-items-baseline">
+                        <!-- <div class="d-flex align-items-baseline">
                             <FontAwesomeIcon :icon="['fas', apartment.services[1].icon]" />
                             <p class="ms-2">
                                 {{ apartment.services[1].name }}
                             </p>
-                        </div>
+                        </div> -->
                     </div>
 
 
-                    <!-- <div class="d-flex align-items-baseline">
-                            <p><font-awesome-icon :icon="['fas', 'person-swimming']" /> Piscina</p>
-                        </div> -->
-                    <!-- <ul class="list-unstyled d-flex flex-wrap my-3">
+                    <div class="d-flex align-items-baseline">
+                        <p><font-awesome-icon :icon="['fas', 'person-swimming']" /> Piscina</p>
+                    </div>
+                    <ul class="list-unstyled d-flex flex-wrap my-3">
                         <li v-for="service in apartment.services" :key="service.id"
                             class="d-flex justify-content-start align-items-baseline me-3">
                             <FontAwesomeIcon :icon="['fas', service.icon]" />
@@ -141,7 +141,7 @@ export default {
                                 {{ service.name }}
                             </p>
                         </li>
-                    </ul> -->
+                    </ul>
 
 
                     <!-- button che mostra tutti i servizi -->
