@@ -115,11 +115,11 @@ export default {
 
 
 .cards_deck {
-	max-width: 1005px;
+	max-width: 1400px;
 }
 
 .cards_deck .card_container {
-	max-width: 300px;
+	max-width: 380px;
 }
 
 .cards_deck .card_container .card {
