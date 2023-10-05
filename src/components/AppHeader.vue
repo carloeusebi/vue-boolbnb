@@ -1,3 +1,17 @@
+<script>
+const links = [
+    { to: 'home', label: 'Home' },
+    { to: 'advanced-search', label: 'Ricerca Avanzata' }
+]
+export default {
+    data() {
+        return {
+            links
+        }
+    }
+}
+</script>
+
 <template>
     <header>
 
@@ -15,32 +29,13 @@
                 <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
                     <!-- left side -->
                     <ul class="navbar-nav">
-
-                        <!-- home -->
-                        <li class="nav-item">
-                            <RouterLink class="nav-link active" aria-current="page" :to="{ name: 'home' }">Home
+                        <li v-for="link in links" :key="link.to" class="nav-item">
+                            <RouterLink class="nav-link active" :to="{ name: link.to }">
+                                {{ link.label }}
                             </RouterLink>
                         </li>
-                        <!-- create -->
-                        <li class="nav-item">
-                            <RouterLink class="nav-link active" aria-current="page" :to="{ name: 'apartments.create' }">
-                                Create
-                            </RouterLink>
-                        </li>
-
-
                     </ul>
 
-                    <!-- right side -->
-                    <ul class="navbar-nav">
-                        <!-- login -->
-                        <li class="nav-item">
-                            <RouterLink class="nav-link active" aria-current="page" :to="{ name: 'login' }">Login
-                            </RouterLink>
-                        </li>
-
-
-                    </ul>
                 </div>
             </div>
         </nav>
