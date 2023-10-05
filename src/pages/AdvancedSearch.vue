@@ -1,4 +1,5 @@
 <script>
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { axiosInstance } from '../assets/axios';
 import ApartmentCard from '../components/ApartmentCard.vue';
 import AppMap from '../components/AppMap.vue';
@@ -12,7 +13,7 @@ const params = { key: TOM_TOM_KEY, language: "it-IT", countrySet: "IT", limit: 1
 
 export default {
     name: 'AdvancedSearch',
-    components: { ApartmentCard, AppMap },
+    components: { ApartmentCard, AppMap, FontAwesomeIcon },
     data() {
         return {
             form: {
@@ -21,6 +22,8 @@ export default {
                 selectedServices: [],
                 lat: '',
                 lon: '',
+                rooms: 1,
+                bedrooms: 1
             },
             services: [],
             apartments: [],
@@ -126,10 +129,23 @@ export default {
                         <input type="number" id="distance" class="form-control" v-model="form.distance" />
                     </div>
                 </div>
+                <!-- ROOMS AND BEDROOMS -->
+                <div class="d-flex mb-3 gap-3">
+                    <div>
+                        <label for="rooms">Stanze</label>
+                        <input id="rooms" class="form-control" v-model="form.rooms" />
+                    </div>
+                    <div>
+                        <label for="bedrooms">Camere da letto</label>
+                        <input id="bedrooms" class="form-control" v-model="form.bedrooms" />
+                    </div>
+                </div>
+                <!-- SERVICES -->
                 <div>
                     <ul v-if="services.length > 0" class="list-unstyled d-flex">
                         <li v-for="service, i in services" :key="service.id" class="me-3">
                             <label :for="`service-${service.id}`">
+                                <FontAwesomeIcon :icon="['fas', service.icon]" />
                                 {{ service.name }}
                             </label>
                             <input :id="`service-${service.id}`" type="checkbox" class="ms-2" :value="service.id"

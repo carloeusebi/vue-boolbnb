@@ -5,6 +5,7 @@ import * as turf from '@turf/turf'
 const key = import.meta.env.VITE_TOM_TOM_KEY;
 
 const rome = { lat: 41.89193, lng: 12.51133 };
+const markers = [];
 
 const props = defineProps({
     apartments: Array,
@@ -33,6 +34,9 @@ watch(() => props.apartments,
 const insertLocs = (map, locations) => {
     const tomtom = window.tt;
 
+    // clear all the previous markers
+    markers.forEach(marker => { marker.remove() })
+
     locations.forEach(location => {
 
         const img = `<a href="apartments/${location.slug}">
@@ -43,7 +47,9 @@ const insertLocs = (map, locations) => {
         const marker = new tomtom.Marker().setLngLat(location).addTo(map);
         const popup = new tt.Popup({ anchor: 'top' }).setHTML(img)
         marker.setPopup(popup).togglePopup();
+        markers.push(marker);
     })
+
 }
 
 const addCircle = (map, coordinates, radius) => {
