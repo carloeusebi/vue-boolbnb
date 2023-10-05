@@ -1,4 +1,7 @@
 <script>
+import { axiosInstance } from '../assets/axios'
+const endpoint = '/api/apartments/{apartment}/message'
+
 export default {
 
     data() {
@@ -8,16 +11,16 @@ export default {
                 name: '',
                 email: ''
             },
-            errors: {}
+            errors: {},
         }
     },
     props: {
-        apartment: {}
+        apartment: {},
     },
     methods: {
 
         formValidation() {
-            if (!this.form.email) this.errors.email = "L'indirizzo email  è obbligatiorio"
+            if (!this.form.email) this.props.errors.email = "L'indirizzo email  è obbligatiorio"
             else if (!this.form.email.includes('@') || this.form.email.length < 5) this.errors.email = "L'indirizzo email non è valido"
             if (!this.form.name) this.errors.name = "Il nome  è obbligatiorio"
             if (!this.form.content) this.errors.content = "Il messaggio è obbligatiorio"
@@ -32,7 +35,10 @@ export default {
 
         handleSubmit() {
             this.errors = {};
-            this.formValidation()
+            this.formValidation();
+            axiosInstance.post(endpoint, this.form)
+                .then(res => console.log('messaggo inviato'))
+                .catch(err => console.log(err.response.data))
         }
     },
 

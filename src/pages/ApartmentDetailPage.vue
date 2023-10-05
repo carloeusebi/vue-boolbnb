@@ -8,6 +8,7 @@ import ApartmentMessageForm from '../components/ApartmentMessageForm.vue';
 
 
 const baseUri = '/api/apartments/';
+const endpoint = '';
 const TOM_TOM_KEY = import.meta.env.VITE_TOM_TOM_KEY;
 
 
@@ -18,7 +19,8 @@ export default {
         return {
             apartment: {},
             map: null,
-            modal: false
+            modal: false,
+            errors: {},
         }
     },
     components: { ApartmentServiceModal, FontAwesomeIcon, AppMap, ApartmentMessageForm },
@@ -140,7 +142,7 @@ export default {
                     <hr>
                 </div>
                 <div class="col-4 my-5">
-                    <ApartmentMessageForm :apartment="apartment" />
+                    <ApartmentMessageForm @form-message-submit="sendMessage" :apartment="apartment" :errors="errors" />
                 </div>
 
 
