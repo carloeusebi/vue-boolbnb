@@ -3,8 +3,14 @@ import { loader } from '../stores/_loader';
 import { axiosInstance } from '../assets/axios'
 import ApartmentCard from '../components/ApartmentCard.vue';
 import AppMap from '../components/AppMap.vue'
+import AddressInput from '../components/AddressInput.vue';
 
 const apartmentEndpoint = '/api/apartments/';
+
+const GEOCODE_ENDPOINT = "https://api.tomtom.com/search/2/geocode";
+const TOM_TOM_KEY = import.meta.env.VITE_TOM_TOM_KEY;
+const params = { key: TOM_TOM_KEY, language: "it-IT", countrySet: "IT", limit: 15 };
+
 
 export default {
 	name: 'HomePage',
@@ -13,9 +19,29 @@ export default {
 		return {
 			nonSponsoredApartments: [],
 			apartments: [],
+			address: '',
+			lat: '',
+			lon: '',
+			loader,
 		};
 	},
-	components: { ApartmentCard, AppMap },
+	components: { ApartmentCard, AppMap, AddressInput },
+
+	methods: {
+		async searchAddress() {
+			const address = this.address;
+			if (address === '') return;
+
+			this.loader.setLoader();
+			const position = await AddressInput.methods.getCoordinates(this.address);
+			this.loader.unsetLoader();
+			const { lat, lon } = position;
+			const query = { address, lat, lon }
+
+			this.$router.push({ name: 'advanced-search', query })
+		},
+
+	},
 
 	created() {
 		loader.setLoader();
@@ -37,6 +63,11 @@ export default {
 	<div class="jumbotron p-5 my-4 main-bg-color rounded-3">
 		<div class="container py-5">
 			<div class="mb-4">
+
+				<form @submit.prevent="searchAddress" class="d-flex gap-3 align-items-center justify-content-center">
+					<AddressInput label="Per iniziare cerca un indirizzo" v-model:address="address" />
+					<button>Cerca</button>
+				</form>
 
 				<h1 class="display-5 fw-bold text-center second-color">
 					BoolBnB

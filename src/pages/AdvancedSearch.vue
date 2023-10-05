@@ -3,12 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { axiosInstance } from '../assets/axios';
 import ApartmentCard from '../components/ApartmentCard.vue';
 import AppMap from '../components/AppMap.vue';
-
-const SEARCH_ENDPOINT = "https://api.tomtom.com/search/2/search";
-const GEOCODE_ENDPOINT = "https://api.tomtom.com/search/2/geocode";
-const TOM_TOM_KEY = import.meta.env.VITE_TOM_TOM_KEY;
-
-const params = { key: TOM_TOM_KEY, language: "it-IT", countrySet: "IT", limit: 15 };
+import AddressInput from '../components/AddressInput.vue'
 
 const form = {
     address: '',
@@ -22,80 +17,21 @@ const form = {
 
 export default {
     name: 'AdvancedSearch',
-    components: { ApartmentCard, AppMap, FontAwesomeIcon },
+    components: { ApartmentCard, AppMap, FontAwesomeIcon, AddressInput },
     data() {
         return {
             form: { ...form },
             services: [],
             apartments: [],
-            addressTimeout: null,
-            suggestedAddresses: [],
             errors: {}
         }
     },
     methods: {
-        /**
-         * After every keypress, if half a second after last keypress has passed, search for similar addresses and provide autocompletion.
-         */
-        handleAddressInput() {
-            const timeoutDuration = 500;
-            // deletes previous timeout
-            clearTimeout(this.addressTimeout);
-            // sets a new timeout
-            this.addressTimeout = setTimeout(() => {
-                // if address is empty, skip
-                if (!this.form.address)
-                    return;
-                axiosInstance
-                    .get(`${SEARCH_ENDPOINT}/${this.form.address}.json`, { params })
-                    .then((res) => {
-                        this.suggestedAddresses = [];
-                        const addresses = res.data.results;
-                        addresses.forEach((address) => {
-                            this.suggestedAddresses.push(address.address.freeformAddress);
-                        });
-                    });
-            }, timeoutDuration);
-        },
-
-        /**
- * Get Coordinates using TomTom's api.
- */
-        async getCoordinates() {
-            // reset lat and lon
-            this.form.lat = this.form.lon = '';
-
-            // if address is empty, skip			
-            if (!this.form.address)
-                return;
-
-            try {
-                this.fetchingCoordinates = true;
-                const res = await axiosInstance.get(`${GEOCODE_ENDPOINT}/${this.form.address}.json`, { params });
-                // reset address errors
-                this.errors.address = ''
-                this.$emit('update:errors', { ...this.errors })
-
-                // if there are no results for the given address add an address error
-                if (res.data.results.length === 0) {
-                    this.$emit('update:errors', { ...this.errors, address: 'Indirizzo non valido.' });
-                    return;
-                }
-
-                // update lat and lon
-                const { position } = res.data.results[0];
-                this.form.lat = position.lat;
-                this.form.lon = position.lon;
-            } catch (err) {
-                console.error(err);
-            } finally {
-                this.fetchingCoordinates = false;
-                return
-            }
-        },
-
         async handleFormSubmission() {
-            await this.getCoordinates();
+            const position = await AddressInput.methods.getCoordinates(this.form.address);
+
+            this.form.lat = position.lat;
+            this.form.lon = position.lon;
             const query = {};
             for (let field in this.form) {
                 query[field] = this.form[field]
@@ -136,12 +72,7 @@ export default {
             <form @submit.prevent="handleFormSubmission" class="col-12 col-md-8">
                 <div class="mb-3 row">
                     <div class="col-12 col-md-9">
-                        <label for="address">Località</label>
-                        <input @keyup="handleAddressInput" id="address" class="form-control" v-model="form.address"
-                            list="addresses" />
-                        <datalist id="addresses">
-                            <option v-for="address in suggestedAddresses">{{ address }}</option>
-                        </datalist>
+                        <AddressInput label="Località" v-model:address="form.address" />
                     </div>
                     <div class="col-12 col-md-3">
                         <label for="distance">Distanza massima in km</label>

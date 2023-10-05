@@ -39,6 +39,15 @@ watch(() => props.apartments,
         insertLocs(map, newValue)
     })
 
+const calculateProperZoom = (radius) => {
+    console.log(radius);
+    const slope = -3 / 130;
+    const yIntercept = 120 / 13;
+
+    const zoom = slope * radius + yIntercept;
+    return zoom > 5 ? zoom : 5;
+}
+
 const insertLocs = (map, locations) => {
     const tomtom = window.tt;
 
@@ -70,6 +79,11 @@ const addCircle = (map, coordinates, radius) => {
 
     const circle = turf.circle(center, radius, options)
 
+    const zoom = calculateProperZoom(radius)
+    console.log(zoom);
+
+    map.setZoom(zoom);
+
 
     map.setCenter(coordinates);
 
@@ -100,11 +114,9 @@ const addCircle = (map, coordinates, radius) => {
 onMounted(() => {
     let { coordinates } = props;
 
-    if (coordinates.lat === '' && coordinates.lon === '')
-        coordinates = { ...rome };
 
     const tt = window.tt;
-    const focus = coordinates
+    const focus = coordinates || rome;
 
     const map = tt.map({
         key,
