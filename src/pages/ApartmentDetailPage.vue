@@ -63,6 +63,7 @@ export default {
             </div>
         </header>
         <div class="container mt-4">
+            <button class="mb-3" @click="$router.back()">Go Back</button>
             <div class="row justify-content-between">
                 <div class="col-12 col-md-7" v-if="apartment.thumbnail">
 

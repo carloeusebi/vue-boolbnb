@@ -12,8 +12,7 @@ const props = defineProps({
     circle: Object,
     coordinates: Object,
     radius: {
-        type: Number,
-        default: 20
+        default: '20'
     },
     zoom: {
         type: Number,
@@ -24,11 +23,15 @@ const props = defineProps({
 const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000';
 
 const mapRef = ref(null);
+let timeout = null;
 
 watch(() => props.coordinates,
     newValue => {
         const { lat, lon } = newValue;
-        addCircle(map, [lon, lat], props.radius);
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            addCircle(map, [lon, lat], props.radius);
+        }, 300);
     })
 
 watch(() => props.apartments,
@@ -59,13 +62,14 @@ const insertLocs = (map, locations) => {
 
 const addCircle = (map, coordinates, radius) => {
 
+    if (coordinates[0] === '' && coordinates[1] === '')
+        coordinates = [rome.lng, rome.lat];
+
     const center = turf.point(coordinates)
     const options = { steps: 80, units: 'kilometers' }
 
     const circle = turf.circle(center, radius, options)
 
-    if (coordinates[0] === '' && coordinates[1] === '')
-        coordinates = rome;
 
     map.setCenter(coordinates);
 
@@ -94,8 +98,13 @@ const addCircle = (map, coordinates, radius) => {
 }
 
 onMounted(() => {
+    let { coordinates } = props;
+
+    if (coordinates.lat === '' && coordinates.lon === '')
+        coordinates = { ...rome };
+
     const tt = window.tt;
-    const focus = props.coordinates || rome
+    const focus = coordinates
 
     const map = tt.map({
         key,
