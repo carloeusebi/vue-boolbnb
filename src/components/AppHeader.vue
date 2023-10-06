@@ -1,20 +1,24 @@
 <script>
-const links = [
-    { to: 'home', label: 'Home' },
-    { to: 'advanced-search', label: 'Ricerca Avanzata' }
-]
 export default {
     data() {
         return {
-            links
+            links: [
+                { to: 'home', label: 'Home' },
+                { to: 'advanced-search', label: 'Ricerca Avanzata' }
+            ],
+            togglerClicked: false
+        };
+    },
+    methods: {
+        toggleToggler() {
+            this.togglerClicked = !this.togglerClicked;
         }
     }
-}
+};
 </script>
 
 <template>
     <header>
-
         <!-- navbar -->
         <nav class="navbar navbar-expand-lg">
             <div class="container">
@@ -22,7 +26,8 @@ export default {
                 <RouterLink class="navbar-brand" :to="{ name: 'home' }">
                     <img class="img-fluid" id="logo" src="../../public/logo.png" alt="logo">
                 </RouterLink>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                <button @click="toggleToggler" :class="{ 'active': togglerClicked }" id="style_toggler"
+                    class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -36,7 +41,6 @@ export default {
                             <div id="bottom_nav_link"></div>
                         </li>
                     </ul>
-
                 </div>
             </div>
         </nav>
@@ -77,6 +81,14 @@ header {
     transition: width 0.5s;
 }
 
+#style_toggler {
+    border-color: #1b433280;
+}
+
+#style_toggler.active {
+    box-shadow: 0 0 5px 4px #1b4332;
+}
+
 /* PSEUDO-CLASSES: */
 #nav_color:hover+#bottom_nav_link {
     width: 95%;
@@ -84,4 +96,13 @@ header {
 
 #nav_color:active {
     color: #1b4332;
-}</style>
+}
+
+.navbar-toggler:focus {
+    box-shadow: 0 0 5px 4px #1b4332;
+}
+
+#style_toggler:not(.active):focus {
+    box-shadow: none;
+}
+</style>

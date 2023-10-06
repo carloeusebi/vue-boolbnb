@@ -112,7 +112,10 @@ export default {
 <style lang="scss" scoped>
 @use '../assets/Scss/style.scss' as *;
 
-
+.jumbotron {
+	-webkit-box-shadow: 0px 0px 9px 17px #f0fff1;
+	box-shadow: 0px 0px 9px 17px #f0fff1;
+}
 
 .cards_deck {
 	max-width: 1236px;
