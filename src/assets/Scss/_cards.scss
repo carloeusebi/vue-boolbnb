@@ -1,0 +1,29 @@
+.card{
+    box-shadow: 0px 0px 25px 5px #bbbbbb;
+    min-width: 380px;
+    max-height: 285px;
+    cursor: pointer;
+}
+.card img{
+    height: 285px;
+    border-radius: 5px;
+}
+.card_bio{
+    margin-top: 1.5rem;
+}
+.card_bio h3{
+    font-weight: 700;
+    font-size: 30px;
+}
+.card_bio p{
+    font-weight: 500;
+    font-size: 20px;
+    
+}
+.card img:hover{
+    box-shadow: 0px 0px 25px 5px #939393;
+    transition: box-shadow 0.5s;
+}
+.card img:active{
+    box-shadow: 0px 0px 25px 5px #5e5e5e;
+}
