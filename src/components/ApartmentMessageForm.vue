@@ -1,6 +1,7 @@
 <script>
-import { axiosInstance } from '../assets/axios'
-const endpoint = '/api/apartments/{apartment}/message'
+import axios from 'axios';
+import { axiosInstance } from '../assets/axios';
+const baseUri = 'api/apartments';
 
 export default {
 
@@ -36,7 +37,7 @@ export default {
         handleSubmit() {
             this.errors = {};
             this.formValidation();
-            axiosInstance.post(endpoint, this.form)
+            axiosInstance.post(`${baseUri}/${this.apartment.slug}/messages/send`, this.form)
                 .then(res => console.log('messaggo inviato'))
                 .catch(err => console.log(err.response.data))
         }
