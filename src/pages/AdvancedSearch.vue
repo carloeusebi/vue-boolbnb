@@ -121,7 +121,7 @@ export default {
         <!-- LIST -->
         <div v-if="apartments.length > 0" class="d-flex justify-content-center rounded-1 pt-4 pb-5 p-0 m-0">
 
-            <div class="cards_deck row justify-content-center gap-5 m-0 p-0">
+            <div class="cards_deck row justify-content-center justify-content-xl-start gap-5 m-0 p-0">
                 <div class="card_container p-0" v-for="apartment in apartments" :key="apartment.id">
 
                     <ApartmentCard :apartment="apartment" />
@@ -134,11 +134,11 @@ export default {
 
 <style scoped>
 .cards_deck {
-    max-width: 1005px;
+    max-width: 1236px;
 }
 
 .cards_deck .card_container {
-    max-width: 300px;
+    max-width: 380px;
 }
 
 .cards_deck .card_container .card {
