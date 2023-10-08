@@ -13,12 +13,22 @@ export default {
                 email: ''
             },
             errors: {},
+            messageSend: false
         }
     },
     props: {
         apartment: {},
     },
     methods: {
+
+        toggleMessage() {
+            this.messageSend = false
+            this.form = {
+                content: '',
+                name: '',
+                email: ''
+            }
+        },
 
         formValidation() {
             if (!this.form.email) this.props.errors.email = "L'indirizzo email  è obbligatiorio"
@@ -37,8 +47,9 @@ export default {
         handleSubmit() {
             this.errors = {};
             this.formValidation();
+            this.messageSend = false
             axiosInstance.post(`${baseUri}/${this.apartment.slug}/messages/send`, this.form)
-                .then(res => console.log('messaggo inviato'))
+                .then(res => this.messageSend = true)
                 .catch(err => console.log(err.response.data))
         }
     },
@@ -50,7 +61,7 @@ export default {
 
 
 <template>
-    <div class="card border rounded border-secondary-subtle">
+    <div class="card border rounded border-secondary-subtle" v-show="!messageSend">
         <div class="card-body d-flex align-items-center flex-column">
             <h4 class="card-title align-self-start">Contatta il proprietario</h4>
             <h6 class="card-subtitle mb-2 text-body-secondary py-2 align-self-start">
@@ -82,6 +93,19 @@ export default {
                         Invia Messaggio</button>
                 </div>
             </form>
+        </div>
+    </div>
+    <div class="card border rounded border-secondary-subtle" v-show="messageSend">
+        <div class="card-body d-flex align-items-center flex-column">
+            <h4 class="card-title align-self-start">Messaggio inviato con successo</h4>
+            <h6 class="card-subtitle mb-2 text-body-secondary py-2 align-self-start">
+                Vuoi inviare un altro messaggio ?
+            </h6>
+            <div>
+                <button @click="toggleMessage" type="submit" class="btn btn-primary"><font-awesome-icon
+                        :icon="['fas', 'paper-plane']" />
+                    Invia un altro messaggio</button>
+            </div>
         </div>
     </div>
 </template>
