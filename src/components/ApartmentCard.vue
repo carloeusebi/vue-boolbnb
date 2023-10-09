@@ -27,6 +27,7 @@ export default {
         </RouterLink>
 
         <div class="card_bio">
+            <div v-if="apartment.sponsored" class="sponsorship">In Evidenza</div>
             <h3 class="card-title">{{ apartment.name }}</h3>
             <p>{{ apartment.address }}</p>
             <div>{{ distance }}</div>
@@ -57,4 +58,51 @@ export default {
 -->
 </template>
 
-<style scoped></style>
+<style scoped lang="scss">
+@use '@/assets/Scss/vars' as *;
+
+.card {
+    box-shadow: 0px 0px 25px 5px #bbbbbb;
+    min-width: 380px;
+    max-height: 285px;
+    cursor: pointer;
+}
+
+.card img {
+    height: 285px;
+    border-radius: 5px;
+}
+
+.card_bio {
+    margin-top: 1.5rem;
+}
+
+.card_bio h3 {
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.card_bio p {
+    font-weight: 500;
+    font-size: 15px;
+
+}
+
+.card img:hover {
+    box-shadow: 0px 0px 25px 5px #939393;
+    transition: box-shadow 0.5s;
+}
+
+.card img:active {
+    box-shadow: 0px 0px 25px 5px #5e5e5e;
+}
+
+.sponsorship {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-weight: bold;
+    background-color: $second-bg-color;
+    color: $main-color;
+}
+</style>

@@ -18,6 +18,7 @@ export default {
 	data() {
 		return {
 			nonSponsoredApartments: [],
+			sponsoredApartments: [],
 			apartments: [],
 			address: '',
 			lat: '',
@@ -50,6 +51,7 @@ export default {
 				const apartments = res.data;
 				this.apartments = apartments;
 				this.nonSponsoredApartments = apartments.filter(apartment => !apartment.sponsored);
+				this.sponsoredApartments = apartments.filter(apartment => apartment.sponsored !== null)
 			})
 			.then(() => {
 				loader.unsetLoader();
@@ -90,22 +92,21 @@ export default {
 	<div class="container mx-auto p-0 pb-5">
 
 
-		<h2 class="text-center text-secondary  pt-3 pb-3">Apartments:</h2>
-
 		<!-- CARDS: -->
 
-		<AppMap v-if="apartments.length > 0" :apartments="apartments" />
+		<!-- <AppMap v-if="apartments.length > 0" :apartments="apartments" /> -->
 
 		<div class="d-flex justify-content-center rounded-1 pt-4 pb-5 p-0 m-0">
-
 			<div class="cards_deck row justify-content-center  justify-content-xl-start gap-5 mt-5 m-0 p-0">
+				<div class="card_container p-0" v-for="apartment in sponsoredApartments" :key="apartment.id">
+					<ApartmentCard :apartment="apartment" />
+				</div>
 				<div class="card_container p-0" v-for="apartment in nonSponsoredApartments" :key="apartment.id">
-
 					<ApartmentCard :apartment="apartment" />
 				</div>
 			</div>
-
 		</div>
+
 	</div>
 </template>
 
