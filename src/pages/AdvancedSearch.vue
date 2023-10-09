@@ -23,6 +23,8 @@ export default {
             form: { ...form },
             services: [],
             apartments: [],
+            sponsoredApartments: [],
+            nonSponsoredApartments: [],
             errors: {}
         }
     },
@@ -43,7 +45,14 @@ export default {
         fetchApartments() {
             const params = { ...this.form }
             this.apartments = []
-            axiosInstance.get('api/apartments', { params }).then(res => { this.apartments = [...res.data] });
+            axiosInstance.get('api/apartments', { params }).then(res => {
+                this.apartments = [...res.data];
+                const sponsored = this.apartments.filter(apt => apt.sponsored);
+                const nonSponsored = this.apartments.filter(apt => !apt.sponsored);
+
+                this.sponsoredApartments = [...sponsored];
+                this.nonSponsoredApartments = [...nonSponsored];
+            });
         },
 
         emptyForm() {
@@ -122,8 +131,10 @@ export default {
         <div v-if="apartments.length > 0" class="d-flex justify-content-center rounded-1 pt-4 pb-5 p-0 m-0">
 
             <div class="cards_deck row justify-content-center justify-content-xl-start gap-5 m-0 p-0">
-                <div class="card_container p-0" v-for="apartment in apartments" :key="apartment.id">
-
+                <div class="card_container p-0" v-for="apartment in sponsoredApartments" :key="apartment.id">
+                    <ApartmentCard :apartment="apartment" />
+                </div>
+                <div class="card_container p-0" v-for="apartment in nonSponsoredApartments" :key="apartment.id">
                     <ApartmentCard :apartment="apartment" />
                 </div>
             </div>
