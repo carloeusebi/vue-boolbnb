@@ -4,9 +4,11 @@ import { loader } from '../stores/_loader';
 import ApartmentServiceModal from '../components/ApartmentServiceModal.vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import AppMap from '../components/AppMap.vue';
+import ApartmentMessageForm from '../components/ApartmentMessageForm.vue';
 
 
 const baseUri = '/api/apartments/';
+const endpoint = '';
 const TOM_TOM_KEY = import.meta.env.VITE_TOM_TOM_KEY;
 
 
@@ -17,10 +19,11 @@ export default {
         return {
             apartment: {},
             map: null,
-            modal: false
+            modal: false,
+            errors: {},
         }
     },
-    components: { ApartmentServiceModal, FontAwesomeIcon, AppMap },
+    components: { ApartmentServiceModal, FontAwesomeIcon, AppMap, ApartmentMessageForm },
 
     computed: {
         isLoadedApartment() {
@@ -153,27 +156,7 @@ export default {
                     <hr>
                 </div>
                 <div class="col-4 my-5">
-                    <div class="card border rounded border-secondary-subtle">
-                        <div class="card-body d-flex align-items-center flex-column">
-                            <h4 class="card-title align-self-start">Contatta il proprietario</h4>
-                            <h6 class="card-subtitle mb-2 text-body-secondary py-2 align-self-start">
-                                <span class="fw-semibold">{{ apartment.name }}</span>
-                                - {{ apartment.address }}
-                            </h6>
-                            <form action="#" class="row px-3 g-2">
-                                <textarea name="" id="" cols="40" rows="4" class="border rounded col"
-                                    placeholder="Messaggio*"></textarea>
-                                <input type="text" name="" id="" placeholder="Nome*" class="border rounded">
-                                <input type="text" name="" id="" placeholder="Email*" class="border rounded">
-                                <p class="text-end">*campi obbligatori</p>
-                                <div>
-                                    <button class="btn btn-primary"><font-awesome-icon :icon="['fas', 'envelope']" />
-                                        Invia
-                                        Email</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+                    <ApartmentMessageForm @form-message-submit="sendMessage" :apartment="apartment" :errors="errors" />
                 </div>
 
 

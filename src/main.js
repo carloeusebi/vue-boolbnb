@@ -14,6 +14,7 @@ import {
   faBellConcierge,
   faHotTubPerson,
   faWater,
+  faPaperPlane,
 } from '@fortawesome/free-solid-svg-icons';
 library.add(
   faShower,
@@ -26,7 +27,8 @@ library.add(
   faSquareParking,
   faBellConcierge,
   faHotTubPerson,
-  faWater
+  faWater,
+  faPaperPlane
 );
 import 'bootstrap';
 import App from './App.vue';
