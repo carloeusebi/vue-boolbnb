@@ -50,7 +50,12 @@ export default {
             this.messageSend = false
             axiosInstance.post(`${baseUri}/${this.apartment.slug}/messages/send`, this.form)
                 .then(res => this.messageSend = true)
-                .catch(err => console.log(err.response.data))
+                .catch(err => {
+                    const { errors } = err.response.data
+                    const errorMessage = {}
+                    for (let field in errors) errorMessage[field] = errors[field][0];
+                    this.errors = errorMessage
+                })
         }
     },
 
