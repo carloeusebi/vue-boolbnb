@@ -2061,7 +2061,9 @@
                     Bastano pochi semplici click!
                 </p>
                 <div class="d-flex justify-content-center">
-                    <a target="_blank" href="http://127.0.0.1:8000/" class="btn second-bg-color main-color">Clicca qui</a>
+                    <a target="_blank" href="http://127.0.0.1:8000/"
+                        class="btn second-bg-color main-color fw-semibold">Clicca
+                        qui</a>
                 </div>
             </div>
         </div>
