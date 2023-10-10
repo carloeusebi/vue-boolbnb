@@ -89,8 +89,9 @@ export default {
 			</div>
 		</div>
 	</div>
-	<hr>
 	<div class="container mx-auto p-0 pb-5">
+
+		<h4 class="pt-4">Appartamenti in evidenza: </h4>
 
 
 		<!-- CARDS: -->
@@ -100,9 +101,6 @@ export default {
 		<div class="d-flex justify-content-center rounded-1 pt-4 pb-5 p-0 m-0">
 			<div class="cards_deck row justify-content-center  justify-content-xl-start gap-5 mt-5 m-0 p-0">
 				<div class="card_container p-0" v-for="apartment in sponsoredApartments" :key="apartment.id">
-					<ApartmentCard :apartment="apartment" />
-				</div>
-				<div class="card_container p-0" v-for="apartment in nonSponsoredApartments" :key="apartment.id">
 					<ApartmentCard :apartment="apartment" />
 				</div>
 			</div>
