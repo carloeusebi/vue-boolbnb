@@ -1,6 +1,7 @@
 <script>
 import axios from 'axios';
 import { axiosInstance } from '../assets/axios';
+import MessageLoader from './MessageLoader.vue';
 const baseUri = 'api/apartments';
 
 export default {
@@ -13,9 +14,11 @@ export default {
                 email: ''
             },
             errors: {},
-            messageSend: false
+            messageSend: false,
+            isLoading: false,
         }
     },
+    components: { MessageLoader },
     props: {
         apartment: {},
     },
@@ -31,12 +34,12 @@ export default {
         },
 
         formValidation() {
-            if (!this.form.email) this.props.errors.email = "L'indirizzo email  è obbligatiorio"
-            else if (!this.form.email.includes('@') || this.form.email.length < 5) this.errors.email = "L'indirizzo email non è valido"
-            if (!this.form.name) this.errors.name = "Il nome  è obbligatiorio"
-            if (!this.form.content) this.errors.content = "Il messaggio è obbligatiorio"
-            if (this.form.name.length > 40) this.errors.name = 'Il nome può essere lungo al massimo 40 caratteri'
-            if (this.form.content.length > 350) this.errors.content = 'Il messaggio può essere lungo al massimo 350 caratteri'
+            if (!this.form.email.length) { this.errors.email = "L'indirizzo email  è obbligatiorio" }
+            else if (!this.form.email.includes('@') || this.form.email.length < 5) { this.errors.email = "L'indirizzo email non è valido" }
+            if (!this.form.name.length) { this.errors.name = "Il nome  è obbligatiorio" }
+            if (!this.form.content.length) { this.errors.content = "Il messaggio è obbligatiorio" }
+            if (this.form.name.length > 40) { this.errors.name = 'Il nome può essere lungo al massimo 40 caratteri' }
+            if (this.form.content.length > 350) { this.errors.content = 'Il messaggio può essere lungo al massimo 350 caratteri' }
         },
 
 
@@ -47,7 +50,9 @@ export default {
         handleSubmit() {
             this.errors = {};
             this.formValidation();
+            if (Object.keys(this.errors).length) return;
             this.messageSend = false
+            this.isLoading = true
             axiosInstance.post(`${baseUri}/${this.apartment.slug}/messages/send`, this.form)
                 .then(res => this.messageSend = true)
                 .catch(err => {
@@ -56,6 +61,7 @@ export default {
                     for (let field in errors) errorMessage[field] = errors[field][0];
                     this.errors = errorMessage
                 })
+                .then(() => { this.isLoading = false })
         }
     },
 
@@ -99,6 +105,7 @@ export default {
                 </div>
             </form>
         </div>
+        <MessageLoader v-show="isLoading" />
     </div>
     <div class="card border rounded border-secondary-subtle" v-show="messageSend">
         <div class="card-body d-flex align-items-center flex-column">
