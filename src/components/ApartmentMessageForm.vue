@@ -13,15 +13,17 @@ export default {
                 name: '',
                 email: ''
             },
-            errors: {},
             messageSend: false,
             isLoading: false,
+            errors: {}
         }
     },
     components: { MessageLoader },
     props: {
-        apartment: {},
+        apartment: Object,
     },
+
+
     methods: {
 
         toggleMessage() {
