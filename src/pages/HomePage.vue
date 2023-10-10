@@ -91,7 +91,7 @@ export default {
 	</div>
 	<div class="container mx-auto p-0 pb-5">
 
-		<h4 class="pt-4">Appartamenti in evidenza: </h4>
+		<h4 class="pt-4 main-color fw-bolder">Appartamenti in evidenza: </h4>
 
 
 		<!-- CARDS: -->
