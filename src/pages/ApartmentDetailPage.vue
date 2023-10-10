@@ -6,13 +6,6 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import AppMap from '../components/AppMap.vue';
 import ApartmentMessageForm from '../components/ApartmentMessageForm.vue';
 
-
-const baseUri = '/api/apartments/';
-const endpoint = '';
-const TOM_TOM_KEY = import.meta.env.VITE_TOM_TOM_KEY;
-
-
-
 export default {
     name: 'ApartmentDetailPage',
     data() {
@@ -41,6 +34,7 @@ export default {
             axiosInstance.get(endpoint)
                 .then(res => {
                     this.apartment = res.data;
+                    this.logVisit();
                 })
                 .catch(err => {
                     console.error(err);
@@ -49,6 +43,13 @@ export default {
                     loader.unsetLoader()
                 })
         },
+
+        /**
+         * Logs a new visit to the apartment.
+         */
+        logVisit() {
+            axiosInstance.post('api/visits/log/' + this.apartment.id).catch(err => console.error(err));
+        }
     },
     created() {
         this.getApartment();
@@ -156,7 +157,7 @@ export default {
                     <hr>
                 </div>
                 <div class="col-4 my-5">
-                    <ApartmentMessageForm @form-message-submit="sendMessage" :apartment="apartment" :errors="errors" />
+                    <ApartmentMessageForm :apartment="apartment" />
                 </div>
 
 
