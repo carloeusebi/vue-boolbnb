@@ -4,6 +4,7 @@ import { axiosInstance } from '../assets/axios'
 import ApartmentCard from '../components/ApartmentCard.vue';
 import AppMap from '../components/AppMap.vue'
 import AddressInput from '../components/AddressInput.vue';
+import SectionRegistration from '../components/SectionRegistration.vue';
 
 const apartmentEndpoint = '/api/apartments/';
 
@@ -26,7 +27,7 @@ export default {
 			loader,
 		};
 	},
-	components: { ApartmentCard, AppMap, AddressInput },
+	components: { ApartmentCard, AppMap, AddressInput, SectionRegistration },
 
 	methods: {
 		async searchAddress() {
@@ -88,8 +89,9 @@ export default {
 			</div>
 		</div>
 	</div>
-	<hr>
 	<div class="container mx-auto p-0 pb-5">
+
+		<h4 class="pt-4 main-color fw-bolder">Appartamenti in evidenza: </h4>
 
 
 		<!-- CARDS: -->
@@ -101,11 +103,11 @@ export default {
 				<div class="card_container p-0" v-for="apartment in sponsoredApartments" :key="apartment.id">
 					<ApartmentCard :apartment="apartment" />
 				</div>
-				<div class="card_container p-0" v-for="apartment in nonSponsoredApartments" :key="apartment.id">
-					<ApartmentCard :apartment="apartment" />
-				</div>
 			</div>
 		</div>
+
+		<!-- registration section -->
+		<SectionRegistration />
 
 	</div>
 </template>
