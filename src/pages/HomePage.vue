@@ -4,6 +4,7 @@ import { axiosInstance } from '../assets/axios'
 import ApartmentCard from '../components/ApartmentCard.vue';
 import AppMap from '../components/AppMap.vue'
 import AddressInput from '../components/AddressInput.vue';
+import SectionRegistration from '../components/SectionRegistration.vue';
 
 const apartmentEndpoint = '/api/apartments/';
 
@@ -26,7 +27,7 @@ export default {
 			loader,
 		};
 	},
-	components: { ApartmentCard, AppMap, AddressInput },
+	components: { ApartmentCard, AppMap, AddressInput, SectionRegistration },
 
 	methods: {
 		async searchAddress() {
@@ -106,6 +107,9 @@ export default {
 				</div>
 			</div>
 		</div>
+
+		<!-- registration section -->
+		<SectionRegistration />
 
 	</div>
 </template>
