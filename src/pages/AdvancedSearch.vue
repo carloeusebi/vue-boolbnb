@@ -165,4 +165,9 @@ export default {
     object-fit: fill;
     height: 200px;
 }
+
+form {
+    max-width: 1080px;
+    margin: 0 auto;
+}
 </style>

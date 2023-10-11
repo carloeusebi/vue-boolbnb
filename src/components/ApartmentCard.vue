@@ -5,7 +5,7 @@ const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 export default {
     name: 'ApartmentCard',
-    props: { apartment: Object },
+    props: { apartment: Object, homepage: Boolean },
     components: { FontAwesomeIcon },
     computed: {
         scrUrl() {
@@ -22,14 +22,16 @@ export default {
     <div class="col-12 col-md-10 col-lg-8">
         <RouterLink :to="{ name: 'apartment-detail', params: { slug: apartment.slug } }">
             <div class="card">
-                <img :src="scrUrl" class="img-fluid" :alt="apartment.name">
+                <figure class="relative">
+                    <div v-if="apartment.sponsored && !homepage" class="sponsorship shadow">In Evidenza</div>
+                    <img :src="scrUrl" class="img-fluid" :alt="apartment.name">
+                </figure>
             </div>
         </RouterLink>
 
         <div class="card_bio">
-            <div v-if="apartment.sponsored" class="sponsorship">In Evidenza</div>
             <h3 class="card-title">{{ apartment.name }}</h3>
-            <p>{{ apartment.address }}</p>
+            <p class="address">{{ apartment.address }}</p>
 
             <ul class="list-unstyled d-flex flex-wrap my-3">
                 <li v-for="service in apartment.services" :key="service.id"
@@ -45,6 +47,10 @@ export default {
 
 <style scoped lang="scss">
 @use '@/assets/Scss/vars' as *;
+
+.address {
+    min-height: 45px;
+}
 
 .card {
     box-shadow: 0px 0px 25px 5px #bbbbbb;
@@ -83,6 +89,9 @@ export default {
 }
 
 .sponsorship {
+    position: absolute;
+    top: 5px;
+    left: 5px;
     display: inline-block;
     padding: 2px 10px;
     border-radius: 20px;
