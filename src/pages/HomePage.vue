@@ -67,12 +67,13 @@ export default {
 		<div class="container py-5">
 			<div class="mb-4">
 
-				<form @submit.prevent="searchAddress" class="d-flex gap-3 align-items-center justify-content-center">
+				<form @submit.prevent="searchAddress"
+					class="d-flex gap-3 flex-wrap flex-lg-nowrap align-items-center justify-content-center">
 					<AddressInput label="Per iniziare cerca un indirizzo" v-model:address="address" />
-					<button>Cerca</button>
+					<button class="btn btn-success">Cerca</button>
 				</form>
 
-				<h1 class="display-5 fw-bold text-center second-color">
+				<h1 class="display-5 fw-bold text-center pt-4 second-color">
 					BoolBnB
 				</h1>
 

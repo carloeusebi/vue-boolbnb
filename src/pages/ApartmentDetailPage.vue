@@ -67,9 +67,9 @@ export default {
             </div>
         </header>
         <div class="container mt-4">
-            <button class="mb-3" @click="$router.back()">Go Back</button>
+            <button class="mb-3 btn btn-secondary" @click="$router.back()">Torna indietro</button>
             <div class="row justify-content-between">
-                <div class="col-12 col-md-7" v-if="apartment.thumbnail">
+                <div class="col-md-1 col-lg-7" v-if="apartment.thumbnail">
 
                     <!-- image -->
                     <figure>
@@ -77,11 +77,12 @@ export default {
                             class="rounded img-fluid">
                     </figure>
                 </div>
-                <div class="col-12 col-md-5">
+                <!-- map -->
+                <div class="col-md-1 col-lg-5">
                     <AppMap v-if="isLoadedApartment" :apartments="[apartment]" :zoom="10"
                         :coordinates="{ lat: apartment.lat, lng: apartment.lon }" />
                 </div>
-                <div class="col-6">
+                <div class="col-md-1  col-lg-6">
                     <!-- apartment' info -->
                     <div class="my-5">
                         <h4 class="text-secondary text-uppercase">Informazioni su questo spazio</h4>
@@ -156,7 +157,7 @@ export default {
                     <ApartmentServiceModal :apartment="apartment" />
                     <hr>
                 </div>
-                <div class="col-4 my-5">
+                <div class="col-md-1 col-lg-4 my-5">
                     <ApartmentMessageForm :apartment="apartment" />
                 </div>
 
@@ -164,10 +165,6 @@ export default {
 
 
             </div>
-            <!-- map -->
-            <!-- #######################################
-                    ########## AGGIUNGERE MAPPA ###########
-                    ######################################-->
 
         </div>
 
