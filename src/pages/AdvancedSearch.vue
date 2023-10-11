@@ -77,7 +77,7 @@ export default {
     <div class="container my-5">
         <div class="row">
             <!-- FORM -->
-            <form @submit.prevent="handleFormSubmission" class="col-12 col-md-8">
+            <form @submit.prevent="handleFormSubmission" class="col-12 col-md-8 mb-4">
                 <div class="mb-3 row">
                     <div class="col-12 col-md-9">
                         <AddressInput label="Località" v-model:address="form.address" />
