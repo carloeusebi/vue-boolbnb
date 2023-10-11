@@ -100,7 +100,7 @@ export default {
                 </div>
                 <!-- SERVICES -->
                 <div>
-                    <ul v-if="services.length > 0" class="list-unstyled d-flex">
+                    <ul v-if="services.length > 0" class="list-unstyled d-flex flex-wrap">
                         <li v-for="service, i in services" :key="service.id" class="me-3">
                             <label :for="`service-${service.id}`">
                                 <FontAwesomeIcon :icon="['fas', service.icon]" />
