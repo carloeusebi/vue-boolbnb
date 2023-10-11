@@ -18,7 +18,11 @@ const props = defineProps({
         type: Number,
         default: 4.5
     },
-    focus: Array
+    focus: Array,
+    width: {
+        type: Number,
+        default: 600
+    }
 })
 const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000';
 
@@ -56,14 +60,9 @@ const insertLocs = (map, locations) => {
 
     locations.forEach(location => {
 
-        const img = `<a href="apartments/${location.slug}">
-                        <img width="50" src=${backendUrl}/storage/${location.thumbnail}>
-                        <div>${location.name}</div>
-                    </a>`
-
         const marker = new tomtom.Marker().setLngLat(location).addTo(map);
-        const popup = new tt.Popup({ anchor: 'top' }).setHTML(img)
-        marker.setPopup(popup).togglePopup();
+        const popup = new tt.Popup({ anchor: 'top' })
+        marker.setPopup(popup)
         markers.push(marker);
     })
 
@@ -140,13 +139,12 @@ onMounted(() => {
 
 <template>
     <div class="d-flex justify-content-center">
-        <div id="map" ref="mapRef"></div>
+        <div id="map" ref="mapRef" :style="`width: ${width}px`"></div>
     </div>
 </template>
 
 <style scoped>
 #map {
     height: 500px;
-    width: 600px;
 }
 </style>
