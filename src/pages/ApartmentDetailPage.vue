@@ -86,6 +86,7 @@ export default {
                     <!-- apartment' info -->
                     <div class="my-5">
                         <h4 class="text-secondary text-uppercase">Informazioni su questo spazio</h4>
+                        <p>{{ apartment.address }}</p>
                         <p v-if="apartment.description">{{ apartment.description }}</p>
                         <p v-else> -- </p>
                     </div>
@@ -147,14 +148,6 @@ export default {
                             </p>
                         </li>
                     </ul>
-
-
-                    <!-- button che mostra tutti i servizi -->
-                    <button class="btn border rounded border-black service-button mt-3" data-bs-toggle="modal"
-                        data-bs-target="#staticBackdrop">
-                        Mostra tutti i servizi
-                    </button>
-                    <ApartmentServiceModal :apartment="apartment" />
                     <hr>
                 </div>
                 <div class="col-md-1 col-lg-4 my-5">

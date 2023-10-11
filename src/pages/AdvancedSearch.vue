@@ -139,7 +139,9 @@ export default {
                     <ApartmentCard :apartment="apartment" />
                 </div>
             </div>
-
+        </div>
+        <div v-else>
+            <div class="text-center text-secondary fw-bold">Nessun appartamento trovato</div>
         </div>
     </div>
 </template>
